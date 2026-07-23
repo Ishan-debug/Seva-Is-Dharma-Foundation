@@ -1,6 +1,6 @@
-import dj_database_url
 from pathlib import Path
 from decouple import config
+import dj_database_url
 
 # Build paths
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -154,9 +154,38 @@ MEDIA_ROOT = BASE_DIR / "media"
 # CORS
 # ==========================
 
+# ==========================
+# CORS
+# ==========================
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "https://seva-is-dharma-foundation.vercel.app",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://seva-is-dharma-foundation.vercel.app",
+]
+
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS",
+]
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
 ]
 # ==========================
 # DEFAULT PRIMARY KEY
