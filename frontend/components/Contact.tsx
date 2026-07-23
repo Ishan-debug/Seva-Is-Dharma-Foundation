@@ -1,6 +1,66 @@
+"use client";
+
+import { useState } from "react";
 import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        "https://seva-is-dharma-foundation.onrender.com/contact/send/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (response.ok) {
+        alert("Message sent successfully!");
+
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        const error = await response.json();
+        console.error(error);
+        alert("Failed to send message.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Server error. Please try again.");
+    }
+
+    setLoading(false);
+  };
+
   return (
     <section id="contact" className="bg-white py-24">
       <div className="mx-auto max-w-7xl px-6">
@@ -84,36 +144,53 @@ export default function Contact() {
 
           {/* Contact Form */}
           <div className="rounded-3xl bg-orange-50 p-8 shadow-xl">
-            <form className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <input
                 type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
                 placeholder="Your Name"
+                required
                 className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-orange-500"
               />
 
               <input
                 type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 placeholder="Your Email"
+                required
                 className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-orange-500"
               />
 
               <input
                 type="text"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
                 placeholder="Subject"
+                required
                 className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-orange-500"
               />
 
               <textarea
                 rows={5}
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
                 placeholder="Your Message"
+                required
                 className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-orange-500"
-              ></textarea>
+              />
 
               <button
                 type="submit"
-                className="w-full rounded-xl bg-orange-600 py-4 font-semibold text-white transition hover:bg-orange-700"
+                disabled={loading}
+                className="w-full rounded-xl bg-orange-600 py-4 font-semibold text-white transition hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Send Message
+                {loading ? "Sending..." : "Send Message"}
               </button>
             </form>
           </div>
