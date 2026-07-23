@@ -29,7 +29,7 @@ export default function Contact() {
 
     try {
       const response = await fetch(
-        "https://seva-is-dharma-foundation.onrender.com/contact/send/",
+        "https://seva-is-dharma-foundation.onrender.com/api/contact/send/",
         {
           method: "POST",
           headers: {
