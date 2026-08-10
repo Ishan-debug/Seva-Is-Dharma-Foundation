@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   HeartHandshake,
   PawPrint,
@@ -12,24 +13,28 @@ const causes = [
     title: "Animal Welfare",
     description:
       "Rescuing, feeding, treating, and protecting stray and injured animals with compassion.",
+    href: "/causes#animal-welfare",
   },
   {
     icon: HeartHandshake,
     title: "Food Distribution",
     description:
       "Providing nutritious meals to poor, homeless, and needy people across communities.",
+    href: "/causes#food-distribution",
   },
   {
     icon: Trees,
     title: "Tree Plantation",
     description:
       "Planting trees and creating greener spaces to build a healthier future.",
+    href: "/causes#tree-plantation",
   },
   {
     icon: Leaf,
     title: "Environment Protection",
     description:
       "Organizing clean-up drives, awareness campaigns, and sustainable initiatives.",
+    href: "/causes#environment-protection",
   },
 ];
 
@@ -40,7 +45,6 @@ export default function Causes() {
       className="bg-gradient-to-b from-orange-50 to-white py-24"
     >
       <div className="mx-auto max-w-7xl px-6">
-
         <FadeIn>
           <div className="text-center">
             <h2 className="text-4xl font-bold text-gray-900">
@@ -61,7 +65,7 @@ export default function Causes() {
             return (
               <FadeIn key={index} delay={index * 0.15}>
                 <div className="group h-full rounded-3xl border border-orange-100 bg-white p-8 shadow-lg transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl">
-                  
+
                   <div className="flex h-16 w-16 items-center justify-center rounded-full bg-orange-100 text-orange-600 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-orange-600 group-hover:text-white">
                     <Icon size={34} />
                   </div>
@@ -74,9 +78,12 @@ export default function Causes() {
                     {cause.description}
                   </p>
 
-                  <button className="mt-8 font-semibold text-orange-600 transition-all duration-300 hover:translate-x-2 hover:text-orange-700">
+                  <Link
+                    href={cause.href}
+                    className="mt-8 inline-block font-semibold text-orange-600 transition-all duration-300 hover:translate-x-2 hover:text-orange-700"
+                  >
                     Learn More →
-                  </button>
+                  </Link>
 
                 </div>
               </FadeIn>

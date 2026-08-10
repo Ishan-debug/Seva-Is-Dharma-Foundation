@@ -4,7 +4,7 @@ import {
   HeartHandshake,
   ShieldCheck,
 } from "lucide-react";
-import FadeIn from "./FadeIn";
+import FadeIn from "../FadeIn";
 
 const values = [
   {

@@ -13,12 +13,13 @@ export default function Footer() {
             </h2>
 
             <p className="mt-5 leading-7 text-gray-400">
-              Dedicated to animal welfare, feeding the hungry,
-              tree plantation, and environmental protection.
+              Dedicated to animal welfare, feeding the hungry, tree plantation,
+              and environmental protection. Together, we strive to build a more
+              compassionate and sustainable future.
             </p>
 
-            <p className="mt-5 flex items-center gap-2 text-orange-400">
-              <Heart size={18} />
+            <p className="mt-5 flex items-center gap-2 text-orange-400 font-medium">
+              <Heart size={18} fill="currentColor" />
               सेवा परमो धर्मः
             </p>
           </div>
@@ -31,33 +32,39 @@ export default function Footer() {
 
             <ul className="space-y-3">
               <li>
-                <Link href="/" className="hover:text-orange-400">
+                <Link href="/" className="hover:text-orange-400 transition">
                   Home
                 </Link>
               </li>
 
               <li>
-                <a href="#about" className="hover:text-orange-400">
-                  About
-                </a>
+                <Link href="/about" className="hover:text-orange-400 transition">
+                  About Us
+                </Link>
               </li>
 
               <li>
-                <a href="#gallery" className="hover:text-orange-400">
+                <Link href="/causes" className="hover:text-orange-400 transition">
+                  Our Causes
+                </Link>
+              </li>
+
+              <li>
+                <Link href="/gallery" className="hover:text-orange-400 transition">
                   Gallery
-                </a>
+                </Link>
               </li>
 
               <li>
-                <a href="#volunteer" className="hover:text-orange-400">
+                <Link href="/volunteer" className="hover:text-orange-400 transition">
                   Volunteer
-                </a>
+                </Link>
               </li>
 
               <li>
-                <a href="#contact" className="hover:text-orange-400">
+                <Link href="/contact" className="hover:text-orange-400 transition">
                   Contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -69,10 +76,41 @@ export default function Footer() {
             </h3>
 
             <ul className="space-y-3">
-              <li>🐾 Animal Welfare</li>
-              <li>🍛 Food Distribution</li>
-              <li>🌳 Tree Plantation</li>
-              <li>🌍 Environment Protection</li>
+              <li>
+                <Link
+                  href="/causes/animal-welfare"
+                  className="hover:text-orange-400 transition"
+                >
+                  🐾 Animal Welfare
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/causes/food-distribution"
+                  className="hover:text-orange-400 transition"
+                >
+                  🍛 Food Distribution
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/causes/tree-plantation"
+                  className="hover:text-orange-400 transition"
+                >
+                  🌳 Tree Plantation
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/causes/environment"
+                  className="hover:text-orange-400 transition"
+                >
+                  🌍 Environment Protection
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -95,7 +133,7 @@ export default function Footer() {
 
               <div className="flex items-center gap-3">
                 <MapPin size={18} className="text-orange-400" />
-                <span>Jharkhand & West Bengal</span>
+                <span>Jharkhand, India</span>
               </div>
             </div>
           </div>
@@ -105,8 +143,7 @@ export default function Footer() {
 
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <p className="text-sm text-gray-500">
-            © {new Date().getFullYear()} Seva Is Dharma Foundation.
-            All Rights Reserved.
+            © {new Date().getFullYear()} Seva Is Dharma Foundation. All Rights Reserved.
           </p>
 
           <p className="text-sm text-orange-400">

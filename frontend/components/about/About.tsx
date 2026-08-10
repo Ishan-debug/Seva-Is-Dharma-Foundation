@@ -1,5 +1,6 @@
+import PoliticalNeutrality from "@/components/about/PoliticalNeutrality";
 import { Heart, HandHeart, Trees, PawPrint } from "lucide-react";
-import FadeIn from "./FadeIn";
+import FadeIn from "../FadeIn";
 
 const features = [
   {
