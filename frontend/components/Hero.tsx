@@ -64,14 +64,14 @@ export default function Hero() {
         <FadeIn delay={0.8}>
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
-              href="#volunteer"
+              href="/#volunteer"
               className="rounded-xl bg-orange-600 px-8 py-4 text-center font-semibold text-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:bg-orange-700 hover:shadow-2xl"
             >
               🤝 Become a Volunteer
             </Link>
 
             <Link
-              href="#donate"
+              href="/donate"
               className="rounded-xl border-2 border-white px-8 py-4 text-center font-semibold transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:text-black hover:shadow-2xl"
             >
               ❤️ Donate Now

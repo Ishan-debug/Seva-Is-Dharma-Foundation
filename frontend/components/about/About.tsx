@@ -1,4 +1,4 @@
-import PoliticalNeutrality from "@/components/about/PoliticalNeutrality";
+import Link from "next/link";
 import { Heart, HandHeart, Trees, PawPrint } from "lucide-react";
 import FadeIn from "../FadeIn";
 
@@ -65,9 +65,13 @@ export default function About() {
               volunteering and community service.
             </p>
 
-            <button className="mt-8 rounded-xl bg-orange-600 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-orange-700 hover:shadow-2xl">
+            {/* Join Our Mission */}
+            <Link
+              href="/#volunteer"
+              className="mt-8 inline-block rounded-xl bg-orange-600 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-orange-700 hover:shadow-2xl"
+            >
               Join Our Mission
-            </button>
+            </Link>
           </div>
         </FadeIn>
 

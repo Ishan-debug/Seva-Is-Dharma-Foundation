@@ -19,6 +19,10 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   return (
     <nav
       className={`sticky top-0 z-50 transition-all duration-300 ${
@@ -30,7 +34,11 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4">
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3">
+        <Link
+          href="/"
+          onClick={closeMenu}
+          className="flex items-center gap-3"
+        >
           <Image
             src="/images/logo.png"
             alt="Seva Is Dharma Foundation"
@@ -54,78 +62,135 @@ export default function Navbar() {
         {/* Desktop Menu */}
         <div className="hidden items-center gap-8 md:flex">
 
-          {[
-            ["Home", "/"],
-            ["About", "#about"],
-            ["Programs", "#programs"],
-            ["Gallery", "#gallery"],
-            ["Contact", "#contact"],
-          ].map(([label, href]) => (
-            <Link
-              key={label}
-              href={href}
-              className="relative font-medium text-gray-700 transition duration-300 hover:text-orange-600 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-600 after:transition-all after:duration-300 hover:after:w-full"
-            >
-              {label}
-            </Link>
-          ))}
+          <Link
+            href="/"
+            className="relative font-medium text-gray-700 transition duration-300 hover:text-orange-600 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-600 after:transition-all after:duration-300 hover:after:w-full"
+          >
+            Home
+          </Link>
 
           <Link
-            href="#donate"
+            href="/about"
+            className="relative font-medium text-gray-700 transition duration-300 hover:text-orange-600 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-600 after:transition-all after:duration-300 hover:after:w-full"
+          >
+            About
+          </Link>
+
+          <Link
+            href="/causes"
+            className="relative font-medium text-gray-700 transition duration-300 hover:text-orange-600 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-600 after:transition-all after:duration-300 hover:after:w-full"
+          >
+            Causes
+          </Link>
+
+          <Link
+            href="/#gallery"
+            className="relative font-medium text-gray-700 transition duration-300 hover:text-orange-600 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-600 after:transition-all after:duration-300 hover:after:w-full"
+          >
+            Gallery
+          </Link>
+
+          <Link
+            href="/#volunteer"
+            className="relative font-medium text-gray-700 transition duration-300 hover:text-orange-600 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-600 after:transition-all after:duration-300 hover:after:w-full"
+          >
+            Volunteer
+          </Link>
+
+          <Link
+            href="/#contact"
+            className="relative font-medium text-gray-700 transition duration-300 hover:text-orange-600 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-600 after:transition-all after:duration-300 hover:after:w-full"
+          >
+            Contact
+          </Link>
+
+          {/* Donate */}
+          <Link
+            href="/donate"
             className="rounded-full bg-orange-600 px-6 py-2 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-orange-700 hover:shadow-xl"
           >
             Donate ❤️
           </Link>
-
         </div>
 
         {/* Mobile Button */}
         <button
+          type="button"
           className="transition hover:scale-110 md:hidden"
           onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isOpen}
         >
           {isOpen ? <X size={30} /> : <Menu size={30} />}
         </button>
       </div>
 
       {/* Mobile Menu */}
-
       <div
         className={`overflow-hidden transition-all duration-300 md:hidden ${
-          isOpen ? "max-h-96 border-t bg-white" : "max-h-0"
+          isOpen
+            ? "max-h-[500px] border-t bg-white"
+            : "max-h-0"
         }`}
       >
         <div className="flex flex-col gap-4 p-5">
 
-          <Link href="/" onClick={() => setIsOpen(false)}>
+          <Link
+            href="/"
+            onClick={closeMenu}
+            className="font-medium text-gray-700 transition hover:text-orange-600"
+          >
             Home
           </Link>
 
-          <Link href="#about" onClick={() => setIsOpen(false)}>
+          <Link
+            href="/about"
+            onClick={closeMenu}
+            className="font-medium text-gray-700 transition hover:text-orange-600"
+          >
             About
           </Link>
 
-          <Link href="#programs" onClick={() => setIsOpen(false)}>
-            Programs
-          </Link>
-
-          <Link href="#gallery" onClick={() => setIsOpen(false)}>
-            Gallery
-          </Link>
-
-          <Link href="#contact" onClick={() => setIsOpen(false)}>
-            Contact
+          <Link
+            href="/causes"
+            onClick={closeMenu}
+            className="font-medium text-gray-700 transition hover:text-orange-600"
+          >
+            Causes
           </Link>
 
           <Link
-            href="#donate"
-            onClick={() => setIsOpen(false)}
+            href="/#gallery"
+            onClick={closeMenu}
+            className="font-medium text-gray-700 transition hover:text-orange-600"
+          >
+            Gallery
+          </Link>
+
+          <Link
+            href="/#volunteer"
+            onClick={closeMenu}
+            className="font-medium text-gray-700 transition hover:text-orange-600"
+          >
+            Volunteer
+          </Link>
+
+          <Link
+            href="/#contact"
+            onClick={closeMenu}
+            className="font-medium text-gray-700 transition hover:text-orange-600"
+          >
+            Contact
+          </Link>
+
+          {/* Mobile Donate */}
+          <Link
+            href="/donate"
+            onClick={closeMenu}
             className="rounded-full bg-orange-600 py-3 text-center font-semibold text-white transition hover:bg-orange-700"
           >
             Donate ❤️
           </Link>
-
         </div>
       </div>
     </nav>
