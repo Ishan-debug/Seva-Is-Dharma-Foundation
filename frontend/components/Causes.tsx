@@ -42,53 +42,56 @@ export default function Causes() {
   return (
     <section
       id="causes"
-      className="bg-gradient-to-b from-orange-50 to-white py-24"
+      className="bg-gradient-to-b from-orange-50 to-white py-16 sm:py-20 lg:py-24"
     >
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        {/* Heading */}
         <FadeIn>
           <div className="text-center">
-            <h2 className="text-4xl font-bold text-gray-900">
+            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
               Our Causes
             </h2>
 
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-gray-600">
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-600 sm:mt-5 sm:text-lg">
               Every small act of kindness creates a ripple of hope. Together,
               we serve humanity, animals, and nature with compassion.
             </p>
           </div>
         </FadeIn>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        {/* Cause Cards */}
+        <div className="mt-10 grid grid-cols-1 gap-6 sm:mt-12 sm:grid-cols-2 sm:gap-7 lg:mt-16 lg:grid-cols-4 lg:gap-8">
           {causes.map((cause, index) => {
             const Icon = cause.icon;
 
             return (
               <FadeIn key={index} delay={index * 0.15}>
-                <div className="group h-full rounded-3xl border border-orange-100 bg-white p-8 shadow-lg transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl">
-
+                <div className="group flex h-full flex-col rounded-3xl border border-orange-100 bg-white p-6 shadow-lg transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl sm:p-7 lg:p-8">
                   {/* Icon */}
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-orange-100 text-orange-600 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-orange-600 group-hover:text-white">
-                    <Icon size={34} />
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-orange-100 text-orange-600 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-orange-600 group-hover:text-white sm:h-16 sm:w-16">
+                    <Icon
+                      size={30}
+                      className="sm:h-[34px] sm:w-[34px]"
+                    />
                   </div>
 
                   {/* Title */}
-                  <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+                  <h3 className="mt-5 text-xl font-semibold leading-tight text-gray-900 sm:mt-6 sm:text-2xl">
                     {cause.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="mt-4 leading-7 text-gray-600">
+                  <p className="mt-3 text-sm leading-6 text-gray-600 sm:mt-4 sm:text-base sm:leading-7">
                     {cause.description}
                   </p>
 
                   {/* Learn More */}
                   <Link
                     href={cause.href}
-                    className="mt-8 inline-block font-semibold text-orange-600 transition-all duration-300 hover:translate-x-2 hover:text-orange-700"
+                    className="mt-auto pt-6 text-sm font-semibold text-orange-600 transition-all duration-300 hover:translate-x-1 hover:text-orange-700 sm:pt-8 sm:text-base"
                   >
                     Learn More →
                   </Link>
-
                 </div>
               </FadeIn>
             );
