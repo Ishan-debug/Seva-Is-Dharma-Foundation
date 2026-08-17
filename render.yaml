@@ -2,15 +2,14 @@ services:
   - type: web
     name: seva-is-dharma-foundation
     runtime: python
+    plan: free
     rootDir: .
-
     buildCommand: "./build.sh"
-
     startCommand: "cd backend && gunicorn config.wsgi:application"
 
     envVars:
       - key: PYTHON_VERSION
-        value: 3.12.5
+        value: "3.12.5"
 
       - key: DEBUG
         value: "False"
@@ -25,5 +24,6 @@ services:
 
 databases:
   - name: seva-is-dharma-db
+    plan: free
     databaseName: seva_is_dharma
     user: seva_is_dharma
