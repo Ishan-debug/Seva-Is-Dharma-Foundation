@@ -27,25 +27,15 @@ DEBUG = config(
     cast=bool,
 )
 
-
-# Hosts
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-
-    # Render
     "seva-is-dharma-foundation.onrender.com",
-
-    # Production API domain
     "api.sevaisdharmafoundation.org",
-
-    # Main domain
     "sevaisdharmafoundation.org",
     "www.sevaisdharmafoundation.org",
 ]
 
-
-# Render automatically provides this hostname.
 render_hostname = os.getenv(
     "RENDER_EXTERNAL_HOSTNAME"
 )
@@ -59,7 +49,6 @@ if render_hostname:
 # =========================================================
 
 INSTALLED_APPS = [
-
     # Django
     "django.contrib.admin",
     "django.contrib.auth",
@@ -71,6 +60,7 @@ INSTALLED_APPS = [
     # Third Party
     "rest_framework",
     "corsheaders",
+    "cloudinary",
 
     # Local Apps
     "accounts",
@@ -88,18 +78,18 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
 
-    # Static files
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
-    # CORS
     "corsheaders.middleware.CorsMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
+
     "django.middleware.common.CommonMiddleware",
 
     "django.middleware.csrf.CsrfViewMiddleware",
 
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+
     "django.contrib.messages.middleware.MessageMiddleware",
 
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -107,7 +97,7 @@ MIDDLEWARE = [
 
 
 # =========================================================
-# URL / WSGI
+# URL CONFIGURATION
 # =========================================================
 
 ROOT_URLCONF = "config.urls"
@@ -146,9 +136,7 @@ TEMPLATES = [
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=config(
-            "DATABASE_URL"
-        ),
+        default=config("DATABASE_URL"),
         conn_max_age=600,
     )
 }
@@ -218,11 +206,19 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 
 # =========================================================
+# CLOUDINARY
+# =========================================================
+
+CLOUDINARY_URL = os.getenv(
+    "CLOUDINARY_URL"
+)
+
+
+# =========================================================
 # CORS
 # =========================================================
 
 CORS_ALLOWED_ORIGINS = [
-
     # Local development
     "http://localhost:3000",
 
@@ -241,14 +237,13 @@ CORS_ALLOWED_ORIGINS = [
 # =========================================================
 
 CSRF_TRUSTED_ORIGINS = [
-
     # Local development
     "http://localhost:3000",
 
-    # Vercel
+    # Current Vercel deployment
     "https://seva-is-dharma-foundation.vercel.app",
 
-    # Production
+    # Production domain
     "https://sevaisdharmafoundation.org",
 
     "https://www.sevaisdharmafoundation.org",
