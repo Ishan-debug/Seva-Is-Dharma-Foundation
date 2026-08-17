@@ -72,9 +72,9 @@ export default function Donation() {
           contact: form.phone,
         },
 
-        notes: {
-          purpose: form.purpose,
-        },
+        notes: form.purpose || "",
+          
+        
 
         theme: {
           color: "#ea580c",
