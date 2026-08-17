@@ -1,8 +1,12 @@
 from django.contrib import admin
+
+from .dashboard import SevaAdminSite
 from .models import Volunteer, Donation
 
 
-@admin.register(Volunteer)
+seva_admin_site = SevaAdminSite(name="seva_admin")
+
+
 class VolunteerAdmin(admin.ModelAdmin):
     list_display = (
         "name",
@@ -27,14 +31,11 @@ class VolunteerAdmin(admin.ModelAdmin):
         "created_at",
     )
 
-    readonly_fields = (
-        "created_at",
-    )
+    readonly_fields = ("created_at",)
 
     ordering = ("-created_at",)
 
 
-@admin.register(Donation)
 class DonationAdmin(admin.ModelAdmin):
     list_display = (
         "name",
@@ -66,3 +67,8 @@ class DonationAdmin(admin.ModelAdmin):
     )
 
     ordering = ("-created_at",)
+
+
+# Register models with our custom admin site
+seva_admin_site.register(Volunteer, VolunteerAdmin)
+seva_admin_site.register(Donation, DonationAdmin)
