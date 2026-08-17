@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: seva-is-dharma-foundation
+    runtime: python
+    rootDir: .
+
+    buildCommand: "./build.sh"
+
+    startCommand: "cd backend && gunicorn config.wsgi:application"
+
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.5
+
+      - key: DEBUG
+        value: "False"
+
+      - key: SECRET_KEY
+        generateValue: true
+
+      - key: DATABASE_URL
+        fromDatabase:
+          name: seva-is-dharma-db
+          property: connectionString
+
+databases:
+  - name: seva-is-dharma-db
+    databaseName: seva_is_dharma
+    user: seva_is_dharma

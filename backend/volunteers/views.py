@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 
 from .models import Volunteer, Donation
 from .serializers import VolunteerSerializer
+from .email_service import send_donation_confirmation
 
 
 class VolunteerCreateView(generics.CreateAPIView):
@@ -36,7 +37,9 @@ class DonationCreateOrderView(APIView):
 
             if amount_rupees <= 0:
                 return Response(
-                    {"error": "Donation amount must be greater than zero."},
+                    {
+                        "error": "Donation amount must be greater than zero."
+                    },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
@@ -44,7 +47,9 @@ class DonationCreateOrderView(APIView):
 
         except (TypeError, ValueError):
             return Response(
-                {"error": "Invalid donation amount."},
+                {
+                    "error": "Invalid donation amount."
+                },
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -53,7 +58,9 @@ class DonationCreateOrderView(APIView):
 
         if not key_id or not key_secret:
             return Response(
-                {"error": "Razorpay credentials are not configured."},
+                {
+                    "error": "Razorpay credentials are not configured."
+                },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
@@ -99,7 +106,9 @@ class DonationCreateOrderView(APIView):
             print("Razorpay order error:", error)
 
             return Response(
-                {"error": "Unable to create Razorpay order."},
+                {
+                    "error": "Unable to create Razorpay order."
+                },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
@@ -124,6 +133,17 @@ class DonationVerifyView(APIView):
                 razorpay_order_id=order_id,
             )
 
+            # Prevent duplicate verification/email
+            if donation.status == "verified":
+                return Response(
+                    {
+                        "success": True,
+                        "message": "Payment has already been verified.",
+                        "donation_id": donation.id,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+
             key_id = os.getenv("RAZORPAY_KEY_ID")
             key_secret = os.getenv("RAZORPAY_KEY_SECRET")
 
@@ -139,7 +159,7 @@ class DonationVerifyView(APIView):
                 auth=(key_id, key_secret)
             )
 
-            # Verify Razorpay signature
+            # Verify Razorpay payment signature
             client.utility.verify_payment_signature(
                 {
                     "razorpay_order_id": donation.razorpay_order_id,
@@ -152,6 +172,7 @@ class DonationVerifyView(APIView):
             donation.razorpay_payment_id = payment_id
             donation.razorpay_signature = signature
             donation.status = "verified"
+
             donation.save(
                 update_fields=[
                     "razorpay_payment_id",
@@ -159,6 +180,16 @@ class DonationVerifyView(APIView):
                     "status",
                 ]
             )
+
+            # Send confirmation email
+            try:
+                send_donation_confirmation(donation)
+
+            except Exception as email_error:
+                print(
+                    "Donation confirmation email error:",
+                    email_error,
+                )
 
             return Response(
                 {
@@ -188,7 +219,10 @@ class DonationVerifyView(APIView):
             )
 
         except Exception as error:
-            print("Razorpay verification error:", error)
+            print(
+                "Razorpay verification error:",
+                error,
+            )
 
             return Response(
                 {
