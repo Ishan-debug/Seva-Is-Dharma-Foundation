@@ -9,26 +9,26 @@ import {
 export default function Footer() {
   return (
     <footer className="bg-gray-950 text-gray-300">
-      <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
 
           {/* Foundation */}
-          <div>
+          <div className="min-w-0">
             <Link
               href="/"
-              className="text-2xl font-bold text-white transition hover:text-orange-400"
+              className="text-xl font-bold text-white transition hover:text-orange-400 sm:text-2xl"
             >
               Seva Is Dharma Foundation
             </Link>
 
-            <p className="mt-5 leading-7 text-gray-400">
+            <p className="mt-5 text-sm leading-7 text-gray-400 sm:text-base">
               Dedicated to animal welfare, feeding the hungry, tree plantation,
               and environmental protection. Together, we strive to build a more
               compassionate and sustainable future.
             </p>
 
             <p className="mt-5 flex items-center gap-2 font-medium text-orange-400">
-              <Heart size={18} fill="currentColor" />
+              <Heart size={18} fill="currentColor" className="shrink-0" />
               सेवा परमो धर्मः
             </p>
 
@@ -36,16 +36,34 @@ export default function Footer() {
               Helping is Bhakti.
             </p>
 
-            {/* Instagram */}
-            <a
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-2 text-gray-400 transition hover:text-orange-400"
-            >
-              <span className="text-lg font-semibold">◎</span>
-              <span>Instagram</span>
-            </a>
+            {/* Social Media */}
+            <div className="mt-6 flex flex-wrap gap-3">
+
+              {/* Instagram */}
+              <a
+                href="https://instagram.com/sevaisdharmafoundation"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Seva Is Dharma Foundation on Instagram"
+                className="inline-flex items-center gap-2 rounded-full border border-gray-800 bg-gray-900 px-4 py-2 text-sm text-gray-300 transition hover:border-orange-500 hover:text-orange-400"
+              >
+                <span className="text-lg">◎</span>
+                Instagram
+              </a>
+
+              {/* X */}
+              <a
+                href="https://x.com/SevaIsDharma"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Seva Is Dharma Foundation on X"
+                className="inline-flex items-center gap-2 rounded-full border border-gray-800 bg-gray-900 px-4 py-2 text-sm text-gray-300 transition hover:border-orange-500 hover:text-orange-400"
+              >
+                <span className="font-bold">𝕏</span>
+                X
+              </a>
+
+            </div>
           </div>
 
           {/* Quick Links */}
@@ -56,10 +74,7 @@ export default function Footer() {
 
             <ul className="space-y-3">
               <li>
-                <Link
-                  href="/"
-                  className="transition hover:text-orange-400"
-                >
+                <Link href="/" className="transition hover:text-orange-400">
                   Home
                 </Link>
               </li>
@@ -199,7 +214,7 @@ export default function Footer() {
           </div>
 
           {/* Contact */}
-          <div>
+          <div className="min-w-0">
             <h3 className="mb-5 text-xl font-semibold text-white">
               Contact
             </h3>
@@ -216,7 +231,7 @@ export default function Footer() {
                   className="mt-1 shrink-0 text-orange-400"
                 />
 
-                <span>
+                <span className="break-words">
                   +91 91992 33328
 
                   <span className="block text-xs text-gray-500">
@@ -232,10 +247,10 @@ export default function Footer() {
                   className="mt-1 shrink-0 text-orange-400"
                 />
 
-                <span>
+                <span className="break-all">
                   contact@sevaisdharma.org
 
-                  <span className="block text-xs text-gray-500">
+                  <span className="mt-1 block break-normal text-xs text-gray-500">
                     Official email coming soon
                   </span>
                 </span>
@@ -279,16 +294,16 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <hr className="my-10 border-gray-800" />
+        <hr className="my-8 border-gray-800 sm:my-10" />
 
         {/* Bottom Footer */}
         <div className="flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
-          <p className="text-sm text-gray-500">
+          <p className="text-xs text-gray-500 sm:text-sm">
             © {new Date().getFullYear()} Seva Is Dharma Foundation.
             All Rights Reserved.
           </p>
 
-          <p className="text-sm text-orange-400">
+          <p className="text-xs text-orange-400 sm:text-sm">
             Serving Humanity • Animals • Nature ❤️
           </p>
         </div>
