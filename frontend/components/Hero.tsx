@@ -5,7 +5,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-[90vh] items-center justify-center overflow-hidden bg-cover bg-center sm:min-h-screen"
+      className="relative flex min-h-[90vh] w-full items-center justify-center overflow-hidden bg-cover bg-center sm:min-h-screen"
       style={{
         backgroundImage: "url('/images/hero.jpg')",
       }}
@@ -14,15 +14,17 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/75" />
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-5xl px-4 py-24 text-center text-white sm:px-6 sm:py-28">
+      <div className="relative z-10 w-full max-w-5xl px-4 py-20 text-center text-white sm:px-6 sm:py-28">
+        {/* Main Heading */}
         <FadeIn>
-          <h1 className="text-3xl font-extrabold leading-[1.15] tracking-tight drop-shadow-2xl sm:text-5xl sm:leading-tight md:text-6xl lg:text-7xl">
+          <h1 className="mx-auto max-w-full break-words text-3xl font-extrabold leading-tight tracking-tight drop-shadow-2xl sm:text-5xl md:text-6xl lg:text-7xl">
             Serving Every Life
             <br />
             with Compassion
           </h1>
         </FadeIn>
 
+        {/* Tagline */}
         <FadeIn delay={0.2}>
           <p className="mt-5 text-lg font-medium sm:mt-6 sm:text-2xl">
             Helping is Bhakti
@@ -35,20 +37,20 @@ export default function Hero() {
 
         {/* Causes */}
         <FadeIn delay={0.4}>
-          <div className="mx-auto mt-7 flex max-w-2xl flex-wrap justify-center gap-2.5 sm:mt-8 sm:gap-3">
-            <span className="rounded-full bg-white/20 px-3 py-1.5 text-xs backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-orange-500/70 sm:px-4 sm:py-2 sm:text-sm">
+          <div className="mx-auto mt-7 flex w-full max-w-3xl flex-wrap justify-center gap-2 overflow-hidden px-1 sm:mt-8 sm:gap-3">
+            <span className="max-w-full break-words rounded-full bg-white/20 px-3 py-1.5 text-xs leading-5 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-orange-500/70 sm:px-4 sm:py-2 sm:text-sm">
               🐾 Animal Welfare
             </span>
 
-            <span className="rounded-full bg-white/20 px-3 py-1.5 text-xs backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-orange-500/70 sm:px-4 sm:py-2 sm:text-sm">
+            <span className="max-w-full break-words rounded-full bg-white/20 px-3 py-1.5 text-xs leading-5 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-orange-500/70 sm:px-4 sm:py-2 sm:text-sm">
               🍛 Food Distribution
             </span>
 
-            <span className="rounded-full bg-white/20 px-3 py-1.5 text-xs backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-orange-500/70 sm:px-4 sm:py-2 sm:text-sm">
+            <span className="max-w-full break-words rounded-full bg-white/20 px-3 py-1.5 text-xs leading-5 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-orange-500/70 sm:px-4 sm:py-2 sm:text-sm">
               🌳 Tree Plantation
             </span>
 
-            <span className="rounded-full bg-white/20 px-3 py-1.5 text-xs backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-orange-500/70 sm:px-4 sm:py-2 sm:text-sm">
+            <span className="max-w-full break-words rounded-full bg-white/20 px-3 py-1.5 text-xs leading-5 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-orange-500/70 sm:px-4 sm:py-2 sm:text-sm">
               🌍 Environment Protection
             </span>
           </div>
@@ -56,7 +58,7 @@ export default function Hero() {
 
         {/* Description */}
         <FadeIn delay={0.6}>
-          <p className="mx-auto mt-7 max-w-3xl text-sm leading-6 text-gray-200 sm:mt-8 sm:text-base sm:leading-7 md:text-lg">
+          <p className="mx-auto mt-7 max-w-3xl break-words text-sm leading-6 text-gray-200 sm:mt-8 sm:text-base sm:leading-7 md:text-lg">
             Protecting animals, feeding the hungry, planting trees, and
             preserving nature through compassion, selfless service, and
             community participation.
@@ -65,7 +67,7 @@ export default function Hero() {
 
         {/* Buttons */}
         <FadeIn delay={0.8}>
-          <div className="mx-auto mt-8 flex w-full max-w-md flex-col justify-center gap-3 sm:mt-10 sm:flex-row sm:max-w-none sm:gap-4">
+          <div className="mx-auto mt-8 flex w-full max-w-md flex-col gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
             <Link
               href="/#volunteer"
               className="w-full rounded-xl bg-orange-600 px-6 py-3.5 text-center text-sm font-semibold text-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:bg-orange-700 hover:shadow-2xl sm:w-auto sm:px-8 sm:py-4 sm:text-base"
