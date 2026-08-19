@@ -4,10 +4,12 @@ import "./globals.css";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  preload: true,
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Seva Is Dharma Foundation",
   description:
     "Helping is Bhakti — protecting animals, feeding the hungry, planting trees and protecting our environment.",
@@ -25,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={poppins.className}>
+      <body className={`${poppins.className} antialiased`}>
         {children}
       </body>
     </html>

@@ -1,20 +1,30 @@
-import FadeIn from "./FadeIn";
+import Image from "next/image";
 import Link from "next/link";
+import FadeIn from "./FadeIn";
 
 export default function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-[90vh] w-full items-center justify-center overflow-hidden bg-cover bg-center sm:min-h-screen"
-      style={{
-        backgroundImage: "url('/images/hero.jpg')",
-      }}
+      className="relative flex min-h-[90vh] w-full items-center justify-center overflow-hidden sm:min-h-screen"
     >
+      {/* Hero Image */}
+      <Image
+        src="/images/hero.jpg"
+        alt="Seva Is Dharma Foundation"
+        fill
+        priority
+        sizes="100vw"
+        quality={80}
+        className="object-cover object-center"
+      />
+
       {/* Dark Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/75" />
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-5xl px-4 py-20 text-center text-white sm:px-6 sm:py-28">
+
         {/* Main Heading */}
         <FadeIn>
           <h1 className="mx-auto max-w-full break-words text-3xl font-extrabold leading-tight tracking-tight drop-shadow-2xl sm:text-5xl md:text-6xl lg:text-7xl">
@@ -37,7 +47,8 @@ export default function Hero() {
 
         {/* Causes */}
         <FadeIn delay={0.4}>
-          <div className="mx-auto mt-7 flex w-full max-w-3xl flex-wrap justify-center gap-2 overflow-hidden px-1 sm:mt-8 sm:gap-3">
+          <div className="mx-auto mt-7 flex w-full max-w-3xl flex-wrap justify-center gap-2 px-1 sm:mt-8 sm:gap-3">
+
             <span className="max-w-full break-words rounded-full bg-white/20 px-3 py-1.5 text-xs leading-5 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-orange-500/70 sm:px-4 sm:py-2 sm:text-sm">
               🐾 Animal Welfare
             </span>
@@ -53,6 +64,7 @@ export default function Hero() {
             <span className="max-w-full break-words rounded-full bg-white/20 px-3 py-1.5 text-xs leading-5 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-orange-500/70 sm:px-4 sm:py-2 sm:text-sm">
               🌍 Environment Protection
             </span>
+
           </div>
         </FadeIn>
 
@@ -68,6 +80,7 @@ export default function Hero() {
         {/* Buttons */}
         <FadeIn delay={0.8}>
           <div className="mx-auto mt-8 flex w-full max-w-md flex-col gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
+
             <Link
               href="/#volunteer"
               className="w-full rounded-xl bg-orange-600 px-6 py-3.5 text-center text-sm font-semibold text-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:bg-orange-700 hover:shadow-2xl sm:w-auto sm:px-8 sm:py-4 sm:text-base"
@@ -81,8 +94,10 @@ export default function Hero() {
             >
               ❤️ Donate Now
             </Link>
+
           </div>
         </FadeIn>
+
       </div>
 
       {/* Scroll Indicator */}
