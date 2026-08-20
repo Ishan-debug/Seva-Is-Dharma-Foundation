@@ -53,11 +53,15 @@ class DonationCreateOrderView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # Razorpay credentials from Render environment
+        # =====================================================
+        # RAZORPAY ENVIRONMENT VARIABLES
+        # =====================================================
+
         key_id = os.getenv("RAZORPAY_KEY_ID")
         key_secret = os.getenv("RAZORPAY_KEY_SECRET")
 
-        # Safe diagnostic: never prints the secret
+        # SAFE DIAGNOSTIC
+        # This does NOT print the secret itself.
         print(
             "RAZORPAY ENV CHECK:",
             {
@@ -77,6 +81,10 @@ class DonationCreateOrderView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
+        # =====================================================
+        # CREATE RAZORPAY ORDER
+        # =====================================================
+
         try:
             client = razorpay.Client(
                 auth=(key_id, key_secret)
@@ -93,6 +101,7 @@ class DonationCreateOrderView(APIView):
                 }
             )
 
+            # Save donation locally
             donation = Donation.objects.create(
                 name=name,
                 email=email,
@@ -116,7 +125,10 @@ class DonationCreateOrderView(APIView):
             )
 
         except Exception as error:
-            print("Razorpay order error:", error)
+            print(
+                "Razorpay order error:",
+                error,
+            )
 
             return Response(
                 {
@@ -128,14 +140,25 @@ class DonationCreateOrderView(APIView):
 
 class DonationVerifyView(APIView):
     def post(self, request):
-        payment_id = request.data.get("razorpay_payment_id")
-        order_id = request.data.get("razorpay_order_id")
-        signature = request.data.get("razorpay_signature")
+        payment_id = request.data.get(
+            "razorpay_payment_id"
+        )
+
+        order_id = request.data.get(
+            "razorpay_order_id"
+        )
+
+        signature = request.data.get(
+            "razorpay_signature"
+        )
 
         if not payment_id or not order_id or not signature:
             return Response(
                 {
-                    "error": "Payment ID, order ID and signature are required."
+                    "error": (
+                        "Payment ID, order ID and signature "
+                        "are required."
+                    )
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
@@ -146,24 +169,35 @@ class DonationVerifyView(APIView):
                 razorpay_order_id=order_id,
             )
 
-            # Prevent duplicate verification/email
+            # Prevent duplicate verification
             if donation.status == "verified":
                 return Response(
                     {
                         "success": True,
-                        "message": "Payment has already been verified.",
+                        "message": (
+                            "Payment has already been verified."
+                        ),
                         "donation_id": donation.id,
                     },
                     status=status.HTTP_200_OK,
                 )
 
+            # =================================================
+            # RAZORPAY CREDENTIALS
+            # =================================================
+
             key_id = os.getenv("RAZORPAY_KEY_ID")
-            key_secret = os.getenv("RAZORPAY_KEY_SECRET")
+            key_secret = os.getenv(
+                "RAZORPAY_KEY_SECRET"
+            )
 
             if not key_id or not key_secret:
                 return Response(
                     {
-                        "error": "Razorpay credentials are not configured."
+                        "error": (
+                            "Razorpay credentials are "
+                            "not configured."
+                        )
                     },
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 )
@@ -172,16 +206,24 @@ class DonationVerifyView(APIView):
                 auth=(key_id, key_secret)
             )
 
-            # Verify Razorpay payment signature
+            # =================================================
+            # VERIFY PAYMENT SIGNATURE
+            # =================================================
+
             client.utility.verify_payment_signature(
                 {
-                    "razorpay_order_id": donation.razorpay_order_id,
+                    "razorpay_order_id": (
+                        donation.razorpay_order_id
+                    ),
                     "razorpay_payment_id": payment_id,
                     "razorpay_signature": signature,
                 }
             )
 
-            # Save verified payment details
+            # =================================================
+            # SAVE VERIFIED PAYMENT
+            # =================================================
+
             donation.razorpay_payment_id = payment_id
             donation.razorpay_signature = signature
             donation.status = "verified"
@@ -194,9 +236,14 @@ class DonationVerifyView(APIView):
                 ]
             )
 
-            # Send confirmation email
+            # =================================================
+            # SEND CONFIRMATION EMAIL
+            # =================================================
+
             try:
-                send_donation_confirmation(donation)
+                send_donation_confirmation(
+                    donation
+                )
 
             except Exception as email_error:
                 print(
@@ -207,7 +254,9 @@ class DonationVerifyView(APIView):
             return Response(
                 {
                     "success": True,
-                    "message": "Payment verified successfully.",
+                    "message": (
+                        "Payment verified successfully."
+                    ),
                     "donation_id": donation.id,
                 },
                 status=status.HTTP_200_OK,
