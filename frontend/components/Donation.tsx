@@ -4,6 +4,9 @@ import { useState } from "react";
 import { Heart } from "lucide-react";
 import { useRazorpay } from "react-razorpay";
 
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+
 export default function Donation() {
   const {
     error: razorpayError,
@@ -42,7 +45,7 @@ export default function Donation() {
     try {
       // Step 1: Create Razorpay order through Django
       const response = await fetch(
-        "http://127.0.0.1:8000/api/volunteers/donations/create/",
+        `${API_URL}/api/volunteers/donations/create/`,
         {
           method: "POST",
           headers: {
@@ -89,7 +92,7 @@ export default function Donation() {
         }) {
           try {
             const verifyResponse = await fetch(
-              "http://127.0.0.1:8000/api/volunteers/donations/verify/",
+              `${API_URL}/api/volunteers/donations/verify/`,
               {
                 method: "POST",
                 headers: {
@@ -119,7 +122,10 @@ export default function Donation() {
               purpose: "",
             });
           } catch (verificationError) {
-            console.error(verificationError);
+            console.error(
+              "Payment verification error:",
+              verificationError
+            );
 
             setError(
               "Payment was received, but verification could not be completed. Please contact us."
@@ -138,6 +144,10 @@ export default function Donation() {
       };
 
       // Step 4: Open Razorpay Checkout
+      if (!Razorpay) {
+        throw new Error("Razorpay failed to load. Please try again.");
+      }
+
       const razorpay = new Razorpay(options);
 
       razorpay.on(
@@ -160,7 +170,7 @@ export default function Donation() {
 
       razorpay.open();
     } catch (submitError) {
-      console.error(submitError);
+      console.error("Donation error:", submitError);
 
       setError(
         submitError instanceof Error
@@ -172,7 +182,7 @@ export default function Donation() {
     }
   };
 
-  // Common input style
+  // Same styling used across the forms
   const inputClass =
     "w-full rounded-xl border border-gray-300 bg-white p-3.5 text-base font-medium text-gray-900 placeholder:text-gray-600 placeholder:opacity-100 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100";
 
