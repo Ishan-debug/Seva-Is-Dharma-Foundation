@@ -7,9 +7,26 @@ from volunteers.admin import seva_admin_site
 
 urlpatterns = [
     path("admin/", seva_admin_site.urls),
-    path("api/volunteers/", include("volunteers.urls")),
-    path("api/contact/", include("contacts.urls")),
-    path("api/gallery/", include("gallery.urls")),
+
+    path(
+        "api/volunteers/",
+        include("volunteers.urls"),
+    ),
+
+    path(
+        "api/contact/",
+        include("contacts.urls"),
+    ),
+
+    path(
+        "api/gallery/",
+        include("gallery.urls"),
+    ),
+
+    path(
+        "api/donations/",
+        include("donations.urls"),
+    ),
 ]
 
 

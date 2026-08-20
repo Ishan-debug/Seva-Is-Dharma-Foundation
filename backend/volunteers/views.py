@@ -53,8 +53,21 @@ class DonationCreateOrderView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+        # Razorpay credentials from Render environment
         key_id = os.getenv("RAZORPAY_KEY_ID")
         key_secret = os.getenv("RAZORPAY_KEY_SECRET")
+
+        # Safe diagnostic: never prints the secret
+        print(
+            "RAZORPAY ENV CHECK:",
+            {
+                "key_id_present": bool(key_id),
+                "secret_present": bool(key_secret),
+                "key_id_prefix": key_id[:8] if key_id else None,
+                "key_id_length": len(key_id or ""),
+                "secret_length": len(key_secret or ""),
+            },
+        )
 
         if not key_id or not key_secret:
             return Response(
@@ -133,6 +146,7 @@ class DonationVerifyView(APIView):
                 razorpay_order_id=order_id,
             )
 
+            # Prevent duplicate verification/email
             if donation.status == "verified":
                 return Response(
                     {
@@ -158,6 +172,7 @@ class DonationVerifyView(APIView):
                 auth=(key_id, key_secret)
             )
 
+            # Verify Razorpay payment signature
             client.utility.verify_payment_signature(
                 {
                     "razorpay_order_id": donation.razorpay_order_id,
@@ -166,6 +181,7 @@ class DonationVerifyView(APIView):
                 }
             )
 
+            # Save verified payment details
             donation.razorpay_payment_id = payment_id
             donation.razorpay_signature = signature
             donation.status = "verified"
@@ -178,6 +194,7 @@ class DonationVerifyView(APIView):
                 ]
             )
 
+            # Send confirmation email
             try:
                 send_donation_confirmation(donation)
 
