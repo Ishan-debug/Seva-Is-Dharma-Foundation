@@ -30,17 +30,21 @@ DEBUG = config(
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
+
+    # Render backend
     "seva-is-dharma-foundation.onrender.com",
+
+    # API custom domain
     "api.sevaisdharmafoundation.org",
+
+    # Main website domains
     "sevaisdharmafoundation.org",
     "www.sevaisdharmafoundation.org",
 ]
 
-render_hostname = os.getenv(
-    "RENDER_EXTERNAL_HOSTNAME"
-)
+render_hostname = os.getenv("RENDER_EXTERNAL_HOSTNAME")
 
-if render_hostname:
+if render_hostname and render_hostname not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.append(render_hostname)
 
 
@@ -209,9 +213,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 # CLOUDINARY
 # =========================================================
 
-CLOUDINARY_URL = os.getenv(
-    "CLOUDINARY_URL"
-)
+CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
 
 
 # =========================================================
@@ -222,12 +224,14 @@ CORS_ALLOWED_ORIGINS = [
     # Local development
     "http://localhost:3000",
 
-    # Current Vercel deployment
+    # Render frontend
+    "https://seva-is-dharma-frontend.onrender.com",
+
+    # Old Vercel deployment
     "https://seva-is-dharma-foundation.vercel.app",
 
-    # Production domain
+    # Production website
     "https://sevaisdharmafoundation.org",
-
     "https://www.sevaisdharmafoundation.org",
 ]
 
@@ -240,12 +244,14 @@ CSRF_TRUSTED_ORIGINS = [
     # Local development
     "http://localhost:3000",
 
-    # Current Vercel deployment
+    # Render frontend
+    "https://seva-is-dharma-frontend.onrender.com",
+
+    # Old Vercel deployment
     "https://seva-is-dharma-foundation.vercel.app",
 
-    # Production domain
+    # Production website
     "https://sevaisdharmafoundation.org",
-
     "https://www.sevaisdharmafoundation.org",
 ]
 
@@ -289,9 +295,7 @@ EMAIL_BACKEND = (
     "django.core.mail.backends.smtp.EmailBackend"
 )
 
-EMAIL_HOST = os.getenv(
-    "EMAIL_HOST"
-)
+EMAIL_HOST = os.getenv("EMAIL_HOST")
 
 EMAIL_PORT = int(
     os.getenv(
@@ -300,13 +304,9 @@ EMAIL_PORT = int(
     )
 )
 
-EMAIL_HOST_USER = os.getenv(
-    "EMAIL_HOST_USER"
-)
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 
-EMAIL_HOST_PASSWORD = os.getenv(
-    "EMAIL_HOST_PASSWORD"
-)
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 EMAIL_USE_SSL = (
     os.getenv(
@@ -316,9 +316,7 @@ EMAIL_USE_SSL = (
     == "true"
 )
 
-DEFAULT_FROM_EMAIL = os.getenv(
-    "DEFAULT_FROM_EMAIL"
-)
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 
 
 # =========================================================
