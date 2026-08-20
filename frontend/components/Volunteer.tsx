@@ -75,11 +75,9 @@ export default function Volunteer() {
     }
   };
 
-  const inputStyle = {
-    color: "#111827",
-    backgroundColor: "#ffffff",
-    WebkitTextFillColor: "#111827",
-  };
+  // Same input styling as Donation form
+  const inputClass =
+    "w-full rounded-xl border border-gray-300 bg-white p-3.5 text-base font-medium text-gray-900 placeholder:text-gray-600 placeholder:opacity-100 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100";
 
   return (
     <section
@@ -96,7 +94,7 @@ export default function Volunteer() {
                 JOIN OUR MISSION
               </span>
 
-              <h2 className="mt-6 text-4xl font-bold text-gray-950 md:text-5xl">
+              <h2 className="mt-6 text-4xl font-bold text-gray-900 md:text-5xl">
                 Become a Volunteer
               </h2>
 
@@ -106,7 +104,7 @@ export default function Volunteer() {
                 and build a cleaner, greener future.
               </p>
 
-              <div className="mt-8 space-y-4 text-gray-900">
+              <div className="mt-8 space-y-4 text-gray-800">
                 <p>🐾 Animal Welfare</p>
                 <p>🍛 Food Distribution</p>
                 <p>🌳 Tree Plantation</p>
@@ -117,105 +115,101 @@ export default function Volunteer() {
 
           {/* RIGHT SIDE */}
           <FadeIn delay={0.2}>
-            <div className="rounded-3xl border border-orange-100 bg-white p-6 shadow-xl sm:p-8">
+            <div className="rounded-3xl border border-orange-100 bg-white p-5 shadow-xl sm:p-8">
 
               <form onSubmit={handleSubmit} className="space-y-5">
 
-                {/* FULL NAME */}
+                {/* Full Name */}
                 <div>
                   <label
                     htmlFor="name"
-                    className="mb-2 block text-sm font-bold text-gray-950"
+                    className="mb-2 block text-sm font-semibold text-gray-900"
                   >
-                    Full Name *
+                    Full Name
                   </label>
 
                   <input
                     id="name"
-                    type="text"
                     name="name"
+                    type="text"
+                    placeholder="Enter your full name"
                     value={form.name}
                     onChange={handleChange}
-                    placeholder="Enter your full name"
                     required
-                    style={inputStyle}
-                    className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-semibold text-gray-950 placeholder:text-gray-800 placeholder:opacity-100 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+                    className={inputClass}
                   />
                 </div>
 
-                {/* EMAIL */}
+                {/* Email */}
                 <div>
                   <label
                     htmlFor="email"
-                    className="mb-2 block text-sm font-bold text-gray-950"
+                    className="mb-2 block text-sm font-semibold text-gray-900"
                   >
-                    Email Address *
+                    Email Address
                   </label>
 
                   <input
                     id="email"
                     type="email"
                     name="email"
+                    placeholder="Enter your email"
                     value={form.email}
                     onChange={handleChange}
-                    placeholder="Enter your email address"
                     required
-                    style={inputStyle}
-                    className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-semibold text-gray-950 placeholder:text-gray-800 placeholder:opacity-100 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+                    className={inputClass}
                   />
                 </div>
 
-                {/* PHONE */}
+                {/* Phone */}
                 <div>
                   <label
                     htmlFor="phone"
-                    className="mb-2 block text-sm font-bold text-gray-950"
+                    className="mb-2 block text-sm font-semibold text-gray-900"
                   >
-                    Phone Number *
+                    Phone Number
                   </label>
 
                   <input
                     id="phone"
-                    type="tel"
                     name="phone"
+                    type="tel"
+                    placeholder="Enter your phone number"
                     value={form.phone}
                     onChange={handleChange}
-                    placeholder="Enter your phone number"
                     required
-                    style={inputStyle}
-                    className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-semibold text-gray-950 placeholder:text-gray-800 placeholder:opacity-100 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+                    className={inputClass}
                   />
                 </div>
 
-                {/* CITY */}
+                {/* City */}
                 <div>
                   <label
                     htmlFor="city"
-                    className="mb-2 block text-sm font-bold text-gray-950"
+                    className="mb-2 block text-sm font-semibold text-gray-900"
                   >
-                    City *
+                    City
                   </label>
 
                   <input
                     id="city"
                     type="text"
                     name="city"
+                    placeholder="Enter your city"
                     value={form.city}
                     onChange={handleChange}
-                    placeholder="Enter your city"
                     required
-                    style={inputStyle}
-                    className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-semibold text-gray-950 placeholder:text-gray-800 placeholder:opacity-100 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+                    className={inputClass}
                   />
                 </div>
 
-                {/* AREA OF INTEREST */}
+                {/* Area of Interest */}
                 <div>
                   <label
                     htmlFor="interest"
-                    className="mb-2 block text-sm font-bold text-gray-950"
+                    className="mb-2 block text-sm font-semibold text-gray-900"
                   >
-                    Area of Interest *
+                    Area of Interest
                   </label>
 
                   <select
@@ -224,81 +218,67 @@ export default function Volunteer() {
                     value={form.interest}
                     onChange={handleChange}
                     required
-                    style={inputStyle}
-                    className="w-full cursor-pointer rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-semibold text-gray-950 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+                    className={`${inputClass} cursor-pointer`}
                   >
-                    <option value="" style={{ color: "#111827" }}>
+                    <option value="">
                       Select Area of Interest *
                     </option>
 
-                    <option
-                      value="Animal Welfare"
-                      style={{ color: "#111827" }}
-                    >
+                    <option value="Animal Welfare">
                       Animal Welfare
                     </option>
 
-                    <option
-                      value="Food Distribution"
-                      style={{ color: "#111827" }}
-                    >
+                    <option value="Food Distribution">
                       Food Distribution
                     </option>
 
-                    <option
-                      value="Tree Plantation"
-                      style={{ color: "#111827" }}
-                    >
+                    <option value="Tree Plantation">
                       Tree Plantation
                     </option>
 
-                    <option
-                      value="Environment Protection"
-                      style={{ color: "#111827" }}
-                    >
+                    <option value="Environment Protection">
                       Environment Protection
                     </option>
                   </select>
                 </div>
 
-                {/* MESSAGE */}
+                {/* Message */}
                 <div>
                   <label
                     htmlFor="message"
-                    className="mb-2 block text-sm font-bold text-gray-950"
+                    className="mb-2 block text-sm font-semibold text-gray-900"
                   >
                     Message
-                    <span className="ml-1 font-normal text-gray-700">
+                    <span className="ml-1 font-normal text-gray-600">
                       (Optional)
                     </span>
                   </label>
 
                   <textarea
                     id="message"
-                    rows={4}
                     name="message"
+                    placeholder="Tell us why you want to volunteer"
                     value={form.message}
                     onChange={handleChange}
-                    placeholder="Tell us why you want to volunteer..."
-                    style={inputStyle}
-                    className="w-full resize-none rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-semibold text-gray-950 placeholder:text-gray-800 placeholder:opacity-100 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+                    rows={4}
+                    className={`${inputClass} resize-none`}
                   />
                 </div>
 
-                {/* BUTTON */}
+                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full rounded-xl bg-orange-600 py-4 font-semibold text-white shadow-md transition-all duration-300 hover:bg-orange-700 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60"
+                  className="flex w-full items-center justify-center rounded-xl bg-orange-600 px-5 py-4 text-base font-semibold text-white shadow-md transition-all duration-300 hover:bg-orange-700 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {loading
                     ? "Submitting..."
                     : "Become a Volunteer ❤️"}
                 </button>
 
-                {/* SUCCESS MESSAGE */}
+                {/* Success Message */}
                 {success && (
-                  <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-center font-medium leading-6 text-green-700">
+                  <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-center text-sm font-medium leading-6 text-green-700">
                     {success}
                   </div>
                 )}
