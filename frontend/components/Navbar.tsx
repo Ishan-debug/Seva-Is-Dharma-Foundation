@@ -14,9 +14,13 @@ export default function Navbar() {
       setScrolled(window.scrollY > 40);
     };
 
+    handleScroll();
+
     window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const closeMenu = () => {
@@ -25,15 +29,15 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-white/20 bg-white/80 py-2 shadow-xl backdrop-blur-xl"
-          : "border-b border-gray-200 bg-white/90 py-3 shadow-md backdrop-blur-md"
+          ? "border-b border-white/30 bg-white/60 py-2 shadow-md backdrop-blur-lg"
+          : "border-b border-white/10 bg-black/10 py-3 backdrop-blur-[2px]"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6">
 
-        {/* Logo */}
+        {/* Logo + Foundation Name */}
         <Link
           href="/"
           onClick={closeMenu}
@@ -49,11 +53,25 @@ export default function Navbar() {
           />
 
           <div>
-            <h1 className="text-sm font-bold text-orange-600 md:text-lg">
+            {/* Foundation Name */}
+            <h1
+              className={`text-sm font-medium tracking-[0.04em] transition-all duration-300 md:text-base ${
+                scrolled
+                  ? "text-orange-600/90"
+                  : "text-white/90 drop-shadow-md"
+              }`}
+            >
               Seva Is Dharma Foundation
             </h1>
 
-            <p className="hidden text-xs text-green-700 md:block">
+            {/* Tagline */}
+            <p
+              className={`hidden text-xs tracking-wide transition-colors duration-300 md:block ${
+                scrolled
+                  ? "text-green-700/80"
+                  : "text-white/75"
+              }`}
+            >
               Helping is Bhakti • सेवा परमो धर्मः
             </p>
           </div>
@@ -62,44 +80,62 @@ export default function Navbar() {
         {/* Desktop Menu */}
         <div className="hidden items-center gap-8 md:flex">
 
+          {/* Home */}
           <Link
             href="/"
-            className="relative font-medium text-gray-700 transition duration-300 hover:text-orange-600 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-600 after:transition-all after:duration-300 hover:after:w-full"
+            className={`relative font-medium transition duration-300 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-500 after:transition-all after:duration-300 hover:text-orange-500 hover:after:w-full ${
+              scrolled ? "text-gray-800" : "text-white"
+            }`}
           >
             Home
           </Link>
 
+          {/* About */}
           <Link
             href="/about"
-            className="relative font-medium text-gray-700 transition duration-300 hover:text-orange-600 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-600 after:transition-all after:duration-300 hover:after:w-full"
+            className={`relative font-medium transition duration-300 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-500 after:transition-all after:duration-300 hover:text-orange-500 hover:after:w-full ${
+              scrolled ? "text-gray-800" : "text-white"
+            }`}
           >
             About
           </Link>
 
+          {/* Causes */}
           <Link
             href="/causes"
-            className="relative font-medium text-gray-700 transition duration-300 hover:text-orange-600 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-600 after:transition-all after:duration-300 hover:after:w-full"
+            className={`relative font-medium transition duration-300 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-500 after:transition-all after:duration-300 hover:text-orange-500 hover:after:w-full ${
+              scrolled ? "text-gray-800" : "text-white"
+            }`}
           >
             Causes
           </Link>
 
+          {/* Gallery */}
           <Link
             href="/#gallery"
-            className="relative font-medium text-gray-700 transition duration-300 hover:text-orange-600 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-600 after:transition-all after:duration-300 hover:after:w-full"
+            className={`relative font-medium transition duration-300 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-500 after:transition-all after:duration-300 hover:text-orange-500 hover:after:w-full ${
+              scrolled ? "text-gray-800" : "text-white"
+            }`}
           >
             Gallery
           </Link>
 
+          {/* Volunteer */}
           <Link
             href="/#volunteer"
-            className="relative font-medium text-gray-700 transition duration-300 hover:text-orange-600 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-600 after:transition-all after:duration-300 hover:after:w-full"
+            className={`relative font-medium transition duration-300 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-500 after:transition-all after:duration-300 hover:text-orange-500 hover:after:w-full ${
+              scrolled ? "text-gray-800" : "text-white"
+            }`}
           >
             Volunteer
           </Link>
 
+          {/* Contact */}
           <Link
             href="/#contact"
-            className="relative font-medium text-gray-700 transition duration-300 hover:text-orange-600 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-600 after:transition-all after:duration-300 hover:after:w-full"
+            className={`relative font-medium transition duration-300 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-orange-500 after:transition-all after:duration-300 hover:text-orange-500 hover:after:w-full ${
+              scrolled ? "text-gray-800" : "text-white"
+            }`}
           >
             Contact
           </Link>
@@ -113,10 +149,12 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile Button */}
+        {/* Mobile Menu Button */}
         <button
           type="button"
-          className="transition hover:scale-110 md:hidden"
+          className={`rounded-lg p-2 transition hover:scale-110 md:hidden ${
+            scrolled ? "text-gray-900" : "text-white"
+          }`}
           onClick={() => setIsOpen(!isOpen)}
           aria-label={isOpen ? "Close menu" : "Open menu"}
           aria-expanded={isOpen}
@@ -128,69 +166,71 @@ export default function Navbar() {
       {/* Mobile Menu */}
       <div
         className={`overflow-hidden transition-all duration-300 md:hidden ${
-          isOpen
-            ? "max-h-[500px] border-t bg-white"
-            : "max-h-0"
+          isOpen ? "max-h-[500px]" : "max-h-0"
         }`}
       >
-        <div className="flex flex-col gap-4 p-5">
+        <div className="border-t border-white/20 bg-black/75 p-5 shadow-xl backdrop-blur-xl">
 
-          <Link
-            href="/"
-            onClick={closeMenu}
-            className="font-medium text-gray-700 transition hover:text-orange-600"
-          >
-            Home
-          </Link>
+          <div className="flex flex-col gap-4">
 
-          <Link
-            href="/about"
-            onClick={closeMenu}
-            className="font-medium text-gray-700 transition hover:text-orange-600"
-          >
-            About
-          </Link>
+            <Link
+              href="/"
+              onClick={closeMenu}
+              className="font-medium text-white transition hover:text-orange-400"
+            >
+              Home
+            </Link>
 
-          <Link
-            href="/causes"
-            onClick={closeMenu}
-            className="font-medium text-gray-700 transition hover:text-orange-600"
-          >
-            Causes
-          </Link>
+            <Link
+              href="/about"
+              onClick={closeMenu}
+              className="font-medium text-white transition hover:text-orange-400"
+            >
+              About
+            </Link>
 
-          <Link
-            href="/#gallery"
-            onClick={closeMenu}
-            className="font-medium text-gray-700 transition hover:text-orange-600"
-          >
-            Gallery
-          </Link>
+            <Link
+              href="/causes"
+              onClick={closeMenu}
+              className="font-medium text-white transition hover:text-orange-400"
+            >
+              Causes
+            </Link>
 
-          <Link
-            href="/#volunteer"
-            onClick={closeMenu}
-            className="font-medium text-gray-700 transition hover:text-orange-600"
-          >
-            Volunteer
-          </Link>
+            <Link
+              href="/#gallery"
+              onClick={closeMenu}
+              className="font-medium text-white transition hover:text-orange-400"
+            >
+              Gallery
+            </Link>
 
-          <Link
-            href="/#contact"
-            onClick={closeMenu}
-            className="font-medium text-gray-700 transition hover:text-orange-600"
-          >
-            Contact
-          </Link>
+            <Link
+              href="/#volunteer"
+              onClick={closeMenu}
+              className="font-medium text-white transition hover:text-orange-400"
+            >
+              Volunteer
+            </Link>
 
-          {/* Mobile Donate */}
-          <Link
-            href="/donate"
-            onClick={closeMenu}
-            className="rounded-full bg-orange-600 py-3 text-center font-semibold text-white transition hover:bg-orange-700"
-          >
-            Donate ❤️
-          </Link>
+            <Link
+              href="/#contact"
+              onClick={closeMenu}
+              className="font-medium text-white transition hover:text-orange-400"
+            >
+              Contact
+            </Link>
+
+            {/* Mobile Donate */}
+            <Link
+              href="/donate"
+              onClick={closeMenu}
+              className="rounded-full bg-orange-600 py-3 text-center font-semibold text-white transition hover:bg-orange-700"
+            >
+              Donate ❤️
+            </Link>
+
+          </div>
         </div>
       </div>
     </nav>
