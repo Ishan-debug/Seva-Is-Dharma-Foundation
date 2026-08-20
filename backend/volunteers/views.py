@@ -11,12 +11,21 @@ from .serializers import VolunteerSerializer
 from .email_service import send_donation_confirmation
 
 
+# =========================================================
+# VOLUNTEER REGISTRATION
+# =========================================================
+
 class VolunteerCreateView(generics.CreateAPIView):
     queryset = Volunteer.objects.all()
     serializer_class = VolunteerSerializer
 
 
+# =========================================================
+# RAZORPAY - CREATE ORDER
+# =========================================================
+
 class DonationCreateOrderView(APIView):
+
     def post(self, request):
         name = request.data.get("name")
         email = request.data.get("email")
@@ -24,9 +33,9 @@ class DonationCreateOrderView(APIView):
         amount = request.data.get("amount")
         purpose = request.data.get("purpose", "")
 
-        # -----------------------------------------------------
-        # Validate donation form
-        # -----------------------------------------------------
+        # -------------------------------------------------
+        # Validate required fields
+        # -------------------------------------------------
 
         if not name or not email or not phone or not amount:
             return Response(
@@ -36,9 +45,9 @@ class DonationCreateOrderView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # -----------------------------------------------------
+        # -------------------------------------------------
         # Validate amount
-        # -----------------------------------------------------
+        # -------------------------------------------------
 
         try:
             amount_rupees = float(amount)
@@ -61,15 +70,39 @@ class DonationCreateOrderView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # -----------------------------------------------------
-        # Razorpay credentials
-        # -----------------------------------------------------
+        # -------------------------------------------------
+        # Read Razorpay environment variables
+        # -------------------------------------------------
 
         key_id = os.getenv("RAZORPAY_KEY_ID")
         key_secret = os.getenv("RAZORPAY_KEY_SECRET")
 
-        # Safe diagnostic.
-        # This never returns the actual credentials.
+        # -------------------------------------------------
+        # SAFE ENVIRONMENT DIAGNOSTIC
+        #
+        # This prints only variable NAMES and booleans.
+        # It NEVER prints the actual secret.
+        # -------------------------------------------------
+
+        razorpay_env_keys = [
+            key
+            for key in os.environ.keys()
+            if "RAZORPAY" in key.upper()
+        ]
+
+        print(
+            "RAZORPAY ENV DIAGNOSTIC:",
+            {
+                "environment_keys_found": razorpay_env_keys,
+                "key_id_present": bool(key_id),
+                "secret_present": bool(key_secret),
+            },
+        )
+
+        # -------------------------------------------------
+        # Stop if credentials are missing
+        # -------------------------------------------------
+
         if not key_id or not key_secret:
             return Response(
                 {
@@ -80,9 +113,9 @@ class DonationCreateOrderView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
-        # -----------------------------------------------------
+        # -------------------------------------------------
         # Create Razorpay order
-        # -----------------------------------------------------
+        # -------------------------------------------------
 
         try:
             client = razorpay.Client(
@@ -115,7 +148,7 @@ class DonationCreateOrderView(APIView):
             )
 
             # -------------------------------------------------
-            # Send order details to frontend
+            # Return order details to frontend
             # -------------------------------------------------
 
             return Response(
@@ -141,7 +174,12 @@ class DonationCreateOrderView(APIView):
             )
 
 
+# =========================================================
+# RAZORPAY - VERIFY PAYMENT
+# =========================================================
+
 class DonationVerifyView(APIView):
+
     def post(self, request):
         payment_id = request.data.get(
             "razorpay_payment_id"
@@ -155,9 +193,9 @@ class DonationVerifyView(APIView):
             "razorpay_signature"
         )
 
-        # -----------------------------------------------------
+        # -------------------------------------------------
         # Validate Razorpay response
-        # -----------------------------------------------------
+        # -------------------------------------------------
 
         if not payment_id or not order_id or not signature:
             return Response(
@@ -188,7 +226,9 @@ class DonationVerifyView(APIView):
                 return Response(
                     {
                         "success": True,
-                        "message": "Payment has already been verified.",
+                        "message": (
+                            "Payment has already been verified."
+                        ),
                         "donation_id": donation.id,
                     },
                     status=status.HTTP_200_OK,
@@ -206,7 +246,11 @@ class DonationVerifyView(APIView):
             if not key_id or not key_secret:
                 return Response(
                     {
-                        "error": "Razorpay credentials are not configured.",
+                        "success": False,
+                        "error": (
+                            "Razorpay credentials are "
+                            "not configured."
+                        ),
                         "key_id_present": bool(key_id),
                         "secret_present": bool(key_secret),
                     },
@@ -214,7 +258,7 @@ class DonationVerifyView(APIView):
                 )
 
             # -------------------------------------------------
-            # Verify Razorpay payment signature
+            # Verify Razorpay signature
             # -------------------------------------------------
 
             client = razorpay.Client(
@@ -252,7 +296,9 @@ class DonationVerifyView(APIView):
             # -------------------------------------------------
 
             try:
-                send_donation_confirmation(donation)
+                send_donation_confirmation(
+                    donation
+                )
 
             except Exception as email_error:
                 print(
@@ -261,17 +307,23 @@ class DonationVerifyView(APIView):
                 )
 
             # -------------------------------------------------
-            # Success response
+            # Success
             # -------------------------------------------------
 
             return Response(
                 {
                     "success": True,
-                    "message": "Payment verified successfully.",
+                    "message": (
+                        "Payment verified successfully."
+                    ),
                     "donation_id": donation.id,
                 },
                 status=status.HTTP_200_OK,
             )
+
+        # -------------------------------------------------
+        # Invalid Razorpay signature
+        # -------------------------------------------------
 
         except razorpay.errors.SignatureVerificationError:
             return Response(
@@ -282,6 +334,10 @@ class DonationVerifyView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+        # -------------------------------------------------
+        # Donation not found
+        # -------------------------------------------------
+
         except Donation.DoesNotExist:
             return Response(
                 {
@@ -290,6 +346,10 @@ class DonationVerifyView(APIView):
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
+
+        # -------------------------------------------------
+        # Other verification errors
+        # -------------------------------------------------
 
         except Exception as error:
             print(
