@@ -32,12 +32,12 @@ ALLOWED_HOSTS = [
     "localhost",
 
     # Render backend
-    "seva-is-dharma-foundation.onrender.com",
+    "seva-is-dharma-backend.onrender.com",
 
     # API custom domain
     "api.sevaisdharmafoundation.org",
 
-    # Main website domains
+    # Main website
     "sevaisdharmafoundation.org",
     "www.sevaisdharmafoundation.org",
 ]
@@ -213,7 +213,25 @@ MEDIA_ROOT = BASE_DIR / "media"
 # CLOUDINARY
 # =========================================================
 
-CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
+CLOUDINARY_URL = config(
+    "CLOUDINARY_URL",
+    default="",
+)
+
+
+# =========================================================
+# RAZORPAY
+# =========================================================
+
+RAZORPAY_KEY_ID = config(
+    "RAZORPAY_KEY_ID",
+    default="",
+)
+
+RAZORPAY_KEY_SECRET = config(
+    "RAZORPAY_KEY_SECRET",
+    default="",
+)
 
 
 # =========================================================
@@ -227,7 +245,7 @@ CORS_ALLOWED_ORIGINS = [
     # Render frontend
     "https://seva-is-dharma-frontend.onrender.com",
 
-    # Old Vercel deployment
+    # Previous Vercel deployment
     "https://seva-is-dharma-foundation.vercel.app",
 
     # Production website
@@ -247,7 +265,7 @@ CSRF_TRUSTED_ORIGINS = [
     # Render frontend
     "https://seva-is-dharma-frontend.onrender.com",
 
-    # Old Vercel deployment
+    # Previous Vercel deployment
     "https://seva-is-dharma-foundation.vercel.app",
 
     # Production website
@@ -295,28 +313,37 @@ EMAIL_BACKEND = (
     "django.core.mail.backends.smtp.EmailBackend"
 )
 
-EMAIL_HOST = os.getenv("EMAIL_HOST")
-
-EMAIL_PORT = int(
-    os.getenv(
-        "EMAIL_PORT",
-        "465",
-    )
+EMAIL_HOST = config(
+    "EMAIL_HOST",
+    default="",
 )
 
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-
-EMAIL_USE_SSL = (
-    os.getenv(
-        "EMAIL_USE_SSL",
-        "True",
-    ).lower()
-    == "true"
+EMAIL_PORT = config(
+    "EMAIL_PORT",
+    default=465,
+    cast=int,
 )
 
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+EMAIL_HOST_USER = config(
+    "EMAIL_HOST_USER",
+    default="",
+)
+
+EMAIL_HOST_PASSWORD = config(
+    "EMAIL_HOST_PASSWORD",
+    default="",
+)
+
+EMAIL_USE_SSL = config(
+    "EMAIL_USE_SSL",
+    default=True,
+    cast=bool,
+)
+
+DEFAULT_FROM_EMAIL = config(
+    "DEFAULT_FROM_EMAIL",
+    default="",
+)
 
 
 # =========================================================
@@ -349,3 +376,4 @@ if not DEBUG:
     SECURE_CONTENT_TYPE_NOSNIFF = True
 
     X_FRAME_OPTIONS = "DENY"
+    
