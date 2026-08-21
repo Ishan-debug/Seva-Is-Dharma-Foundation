@@ -2,10 +2,27 @@
 
 import { useState } from "react";
 import { Heart } from "lucide-react";
-import { useRazorpay } from "react-razorpay";
+import {
+  useRazorpay,
+  type RazorpayOrderOptions,
+} from "react-razorpay";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+const API_URL = (
+  process.env.NEXT_PUBLIC_API_URL ||
+  "http://127.0.0.1:8000"
+).replace(/\/$/, "");
+
+type PaymentResponse = {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
+};
+
+type PaymentFailedResponse = {
+  error?: {
+    description?: string;
+  };
+};
 
 export default function Donation() {
   const {
@@ -27,15 +44,19 @@ export default function Donation() {
   const [error, setError] = useState("");
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement
+    >
   ) => {
-    setForm({
-      ...form,
+    setForm((previous) => ({
+      ...previous,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
 
     setLoading(true);
@@ -43,7 +64,10 @@ export default function Donation() {
     setError("");
 
     try {
-      // Step 1: Create Razorpay order through Django
+      // =====================================================
+      // STEP 1: CREATE RAZORPAY ORDER
+      // =====================================================
+
       const response = await fetch(
         `${API_URL}/api/volunteers/donations/create/`,
         {
@@ -59,12 +83,38 @@ export default function Donation() {
 
       if (!response.ok) {
         throw new Error(
-          data.error || "Unable to create donation order."
+          data.error ||
+            "Unable to create donation order."
         );
       }
 
-      // Step 2: Razorpay Checkout options
-      const options = {
+      // =====================================================
+      // CHECK RAZORPAY
+      // =====================================================
+
+      if (!Razorpay) {
+        throw new Error(
+          "Razorpay is still loading. Please try again."
+        );
+      }
+
+      if (!data.key_id) {
+        throw new Error(
+          "Razorpay key was not received from the server."
+        );
+      }
+
+      if (!data.order_id) {
+        throw new Error(
+          "Razorpay order was not created."
+        );
+      }
+
+      // =====================================================
+      // STEP 2: RAZORPAY CHECKOUT OPTIONS
+      // =====================================================
+
+      const options: RazorpayOrderOptions = {
         key: data.key_id,
         amount: data.amount,
         currency: data.currency,
@@ -79,18 +129,20 @@ export default function Donation() {
         },
 
         notes: form.purpose || "",
-
+          
+        
         theme: {
           color: "#ea580c",
         },
 
-        // Step 3: Verify payment through Django
-        handler: async function (paymentResponse: {
-          razorpay_payment_id: string;
-          razorpay_order_id: string;
-          razorpay_signature: string;
-        }) {
+        handler: async (
+          paymentResponse: PaymentResponse
+        ) => {
           try {
+            // =================================================
+            // STEP 3: VERIFY PAYMENT
+            // =================================================
+
             const verifyResponse = await fetch(
               `${API_URL}/api/volunteers/donations/verify/`,
               {
@@ -98,21 +150,30 @@ export default function Donation() {
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify(paymentResponse),
+                body: JSON.stringify(
+                  paymentResponse
+                ),
               }
             );
 
-            const verifyData = await verifyResponse.json();
+            const verifyData =
+              await verifyResponse.json();
 
-            if (!verifyResponse.ok || !verifyData.success) {
+            if (
+              !verifyResponse.ok ||
+              !verifyData.success
+            ) {
               throw new Error(
-                verifyData.error || "Payment verification failed."
+                verifyData.error ||
+                  "Payment verification failed."
               );
             }
 
             setMessage(
               "🎉 Thank you! Your donation has been successfully verified."
             );
+
+            setError("");
 
             setForm({
               name: "",
@@ -134,30 +195,27 @@ export default function Donation() {
             setLoading(false);
           }
         },
-
-        modal: {
-          ondismiss: function () {
-            setLoading(false);
-            setError("Donation payment was cancelled.");
-          },
-        },
       };
 
-      // Step 4: Open Razorpay Checkout
-      if (!Razorpay) {
-        throw new Error("Razorpay failed to load. Please try again.");
-      }
+      // =====================================================
+      // STEP 4: CREATE RAZORPAY INSTANCE
+      // =====================================================
 
       const razorpay = new Razorpay(options);
 
+      // =====================================================
+      // PAYMENT FAILED
+      // =====================================================
+
       razorpay.on(
         "payment.failed",
-        function (response: {
-          error?: {
-            description?: string;
-          };
-        }) {
-          console.error("Razorpay payment failed:", response);
+        (
+          response: PaymentFailedResponse
+        ) => {
+          console.error(
+            "Razorpay payment failed:",
+            response
+          );
 
           setError(
             response.error?.description ||
@@ -168,9 +226,35 @@ export default function Donation() {
         }
       );
 
+      // =====================================================
+      // PAYMENT MODAL CLOSED
+      // =====================================================
+
+      (
+        options as RazorpayOrderOptions & {
+          modal?: {
+            ondismiss?: () => void;
+          };
+        }
+      ).modal = {
+        ondismiss: () => {
+          setLoading(false);
+          setError(
+            "Donation payment was cancelled."
+          );
+        },
+      };
+
+      // =====================================================
+      // OPEN RAZORPAY
+      // =====================================================
+
       razorpay.open();
     } catch (submitError) {
-      console.error("Donation error:", submitError);
+      console.error(
+        "Donation submission error:",
+        submitError
+      );
 
       setError(
         submitError instanceof Error
@@ -182,9 +266,12 @@ export default function Donation() {
     }
   };
 
-  // Same styling used across the forms
+  // =========================================================
+  // INPUT STYLE
+  // =========================================================
+
   const inputClass =
-    "w-full rounded-xl border border-gray-300 bg-white p-3.5 text-base font-medium text-gray-900 placeholder:text-gray-600 placeholder:opacity-100 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100";
+    "w-full rounded-xl border border-gray-300 bg-white p-3.5 text-base font-medium text-gray-900 placeholder:text-gray-500 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100";
 
   return (
     <section
@@ -193,7 +280,10 @@ export default function Donation() {
     >
       <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16">
 
-        {/* LEFT SIDE */}
+        {/* =================================================
+            LEFT SIDE
+        ================================================== */}
+
         <div className="min-w-0">
           <span className="inline-block rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold text-orange-700">
             SUPPORT OUR MISSION
@@ -204,8 +294,9 @@ export default function Donation() {
           </h2>
 
           <p className="mt-6 text-base leading-7 text-gray-700 sm:text-lg sm:leading-8">
-            Your contribution helps us protect animals, feed the hungry,
-            plant trees and protect our environment.
+            Your contribution helps us protect animals,
+            feed the hungry, plant trees and protect our
+            environment.
           </p>
 
           <div className="mt-8 space-y-3 text-base font-medium text-gray-800 sm:text-lg">
@@ -215,28 +306,37 @@ export default function Donation() {
             <p>🌍 Environment Protection</p>
           </div>
 
-          {/* Test Mode */}
+          {/* TEST MODE */}
+
           <div className="mt-8 rounded-2xl border border-orange-200 bg-white/80 p-5 shadow-sm">
             <p className="font-semibold text-gray-900">
               Test Mode
             </p>
 
             <p className="mt-2 text-sm leading-6 text-gray-700">
-              Online donations are currently being tested using Razorpay Test
-              Mode. No real money will be collected during testing.
+              Online donations are currently being tested
+              using Razorpay Test Mode. No real money will
+              be collected during testing.
             </p>
           </div>
         </div>
 
-        {/* DONATION FORM */}
+        {/* =================================================
+            DONATION FORM
+        ================================================== */}
+
         <div className="min-w-0 rounded-3xl bg-white p-5 shadow-xl sm:p-8">
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-5"
+          >
 
             {/* Full Name */}
+
             <div>
               <label
                 htmlFor="name"
-                className="mb-2 block text-sm font-semibold text-gray-900"
+                className="mb-2 block text-sm font-semibold text-gray-800"
               >
                 Full Name
               </label>
@@ -254,10 +354,11 @@ export default function Donation() {
             </div>
 
             {/* Email */}
+
             <div>
               <label
                 htmlFor="email"
-                className="mb-2 block text-sm font-semibold text-gray-900"
+                className="mb-2 block text-sm font-semibold text-gray-800"
               >
                 Email Address
               </label>
@@ -275,10 +376,11 @@ export default function Donation() {
             </div>
 
             {/* Phone */}
+
             <div>
               <label
                 htmlFor="phone"
-                className="mb-2 block text-sm font-semibold text-gray-900"
+                className="mb-2 block text-sm font-semibold text-gray-800"
               >
                 Phone Number
               </label>
@@ -296,16 +398,17 @@ export default function Donation() {
             </div>
 
             {/* Amount */}
+
             <div>
               <label
                 htmlFor="amount"
-                className="mb-2 block text-sm font-semibold text-gray-900"
+                className="mb-2 block text-sm font-semibold text-gray-800"
               >
                 Donation Amount
               </label>
 
               <div className="relative">
-                <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-semibold text-gray-800">
+                <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-semibold text-gray-700">
                   ₹
                 </span>
 
@@ -325,10 +428,11 @@ export default function Donation() {
             </div>
 
             {/* Purpose */}
+
             <div>
               <label
                 htmlFor="purpose"
-                className="mb-2 block text-sm font-semibold text-gray-900"
+                className="mb-2 block text-sm font-semibold text-gray-800"
               >
                 Purpose
                 <span className="ml-1 font-normal text-gray-600">
@@ -348,9 +452,10 @@ export default function Donation() {
             </div>
 
             {/* Donate Button */}
+
             <button
               type="submit"
-              disabled={loading || razorpayLoading}
+              disabled={loading}
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-orange-600 px-5 py-4 text-base font-semibold text-white shadow-md transition-all duration-300 hover:bg-orange-700 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Heart size={18} />
@@ -360,14 +465,25 @@ export default function Donation() {
                 : "Donate with Razorpay ❤️"}
             </button>
 
+            {/* Razorpay Loading */}
+
+            {razorpayLoading && !loading && (
+              <p className="text-center text-xs text-gray-500">
+                Loading secure payment system...
+              </p>
+            )}
+
             {/* Razorpay Error */}
+
             {razorpayError && (
               <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-center text-sm font-medium text-red-700">
-                Unable to load Razorpay. Please refresh and try again.
+                Unable to load Razorpay. Please refresh
+                and try again.
               </div>
             )}
 
             {/* Success */}
+
             {message && (
               <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-center text-sm font-medium leading-6 text-green-700">
                 {message}
@@ -375,6 +491,7 @@ export default function Donation() {
             )}
 
             {/* Error */}
+
             {error && (
               <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-center text-sm font-medium leading-6 text-red-700">
                 {error}
@@ -382,10 +499,11 @@ export default function Donation() {
             )}
 
             {/* Security */}
-            <p className="text-center text-xs leading-5 text-gray-500">
-              🔒 Your payment is securely processed through Razorpay.
-            </p>
 
+            <p className="text-center text-xs leading-5 text-gray-500">
+              🔒 Your payment is securely processed
+              through Razorpay.
+            </p>
           </form>
         </div>
       </div>
