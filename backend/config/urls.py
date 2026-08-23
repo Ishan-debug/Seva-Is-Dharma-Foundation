@@ -14,7 +14,7 @@ urlpatterns = [
     ),
 
     path(
-        "api/contact/",
+        "api/contacts/",
         include("contacts.urls"),
     ),
 
