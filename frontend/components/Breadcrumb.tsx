@@ -9,15 +9,23 @@ interface BreadcrumbProps {
   items: BreadcrumbItem[];
 }
 
-export default function Breadcrumb({ items }: BreadcrumbProps) {
+export default function Breadcrumb({
+  items,
+}: BreadcrumbProps) {
   return (
-    <nav aria-label="Breadcrumb" className="mb-6">
-      <ol className="flex flex-wrap items-center gap-2 text-sm">
+    <nav
+      aria-label="Breadcrumb"
+      className="mb-4 sm:mb-6"
+    >
+      <ol className="flex flex-wrap items-center gap-1.5 text-xs sm:gap-2 sm:text-sm">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
 
           return (
-            <li key={index} className="flex items-center">
+            <li
+              key={index}
+              className="flex items-center"
+            >
               {item.href && !isLast ? (
                 <Link
                   href={item.href}
@@ -32,7 +40,9 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
               )}
 
               {!isLast && (
-                <span className="mx-2 text-white/60">/</span>
+                <span className="mx-1.5 text-white/50 sm:mx-2">
+                  /
+                </span>
               )}
             </li>
           );
