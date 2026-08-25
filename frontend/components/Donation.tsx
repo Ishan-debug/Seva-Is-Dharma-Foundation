@@ -62,15 +62,20 @@ type RazorpayOptions = {
 
 declare global {
   interface Window {
-    Razorpay: new (options: RazorpayOptions) => {
+    Razorpay: new (
+      options: RazorpayOptions
+    ) => {
       open: () => void;
     };
   }
 }
 
 export default function Donation() {
-  const [razorpayReady, setRazorpayReady] = useState(false);
-  const [razorpayLoading, setRazorpayLoading] = useState(true);
+  const [razorpayReady, setRazorpayReady] =
+    useState(false);
+
+  const [razorpayLoading, setRazorpayLoading] =
+    useState(true);
 
   const [form, setForm] = useState({
     name: "",
@@ -87,13 +92,14 @@ export default function Donation() {
   const paymentCompleted = useRef(false);
 
   // =========================================================
-  // LOAD RAZORPAY DIRECTLY
+  // LOAD RAZORPAY
   // =========================================================
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined") {
+      return;
+    }
 
-    // Already loaded
     if (window.Razorpay) {
       setRazorpayReady(true);
       setRazorpayLoading(false);
@@ -105,18 +111,34 @@ export default function Donation() {
     );
 
     if (existingScript) {
-      existingScript.addEventListener("load", handleLoaded);
-      existingScript.addEventListener("error", handleError);
+      existingScript.addEventListener(
+        "load",
+        handleLoaded
+      );
+
+      existingScript.addEventListener(
+        "error",
+        handleError
+      );
 
       return () => {
-        existingScript.removeEventListener("load", handleLoaded);
-        existingScript.removeEventListener("error", handleError);
+        existingScript.removeEventListener(
+          "load",
+          handleLoaded
+        );
+
+        existingScript.removeEventListener(
+          "error",
+          handleError
+        );
       };
     }
 
     const script = document.createElement("script");
 
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.src =
+      "https://checkout.razorpay.com/v1/checkout.js";
+
     script.async = true;
 
     script.onload = handleLoaded;
@@ -137,6 +159,7 @@ export default function Donation() {
     function handleError() {
       setRazorpayReady(false);
       setRazorpayLoading(false);
+
       setError(
         "Unable to load the secure payment system. Please refresh the page and try again."
       );
@@ -144,11 +167,13 @@ export default function Donation() {
   }, []);
 
   // =========================================================
-  // HANDLE INPUTS
+  // HANDLE INPUT
   // =========================================================
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement
+    >
   ) => {
     const { name, value } = e.target;
 
@@ -171,9 +196,11 @@ export default function Donation() {
         `${API_URL}/api/volunteers/donations/verify/`,
         {
           method: "POST",
+
           headers: {
             "Content-Type": "application/json",
           },
+
           body: JSON.stringify({
             donation_id: donationId,
 
@@ -215,19 +242,16 @@ export default function Donation() {
         );
       }
 
-      // IMPORTANT:
-      // Payment is now successfully verified.
       paymentCompleted.current = true;
 
       setLoading(false);
 
       setMessage(
-        "Thank you for supporting Seva Is Dharma Foundation! Your donation has been received successfully. ❤️"
+        "Thank you for supporting Seva Is Dharma Foundation. Your donation has been received successfully. ❤️"
       );
 
       setError("");
 
-      // Clear the form AFTER successful verification.
       setForm({
         name: "",
         email: "",
@@ -236,7 +260,10 @@ export default function Donation() {
         purpose: "",
       });
     } catch (err) {
-      console.error("Payment verification error:", err);
+      console.error(
+        "Payment verification error:",
+        err
+      );
 
       setLoading(false);
 
@@ -249,7 +276,7 @@ export default function Donation() {
   };
 
   // =========================================================
-  // CREATE ORDER + OPEN RAZORPAY
+  // SUBMIT DONATION
   // =========================================================
 
   const handleSubmit = async (
@@ -257,7 +284,9 @@ export default function Donation() {
   ) => {
     e.preventDefault();
 
-    if (loading) return;
+    if (loading) {
+      return;
+    }
 
     setMessage("");
     setError("");
@@ -286,14 +315,20 @@ export default function Donation() {
     const amount = Number(form.amount);
 
     if (!amount || amount < 1) {
-      setError("Please enter a valid donation amount.");
+      setError(
+        "Please enter a valid donation amount."
+      );
       return;
     }
 
-    if (!razorpayReady || !window.Razorpay) {
+    if (
+      !razorpayReady ||
+      !window.Razorpay
+    ) {
       setError(
         "Secure payment system is still loading. Please wait a moment and try again."
       );
+
       return;
     }
 
@@ -301,16 +336,18 @@ export default function Donation() {
 
     try {
       // =====================================================
-      // STEP 1 — CREATE ORDER
+      // CREATE RAZORPAY ORDER
       // =====================================================
 
       const response = await fetch(
         `${API_URL}/api/volunteers/donations/create/`,
         {
           method: "POST",
+
           headers: {
             "Content-Type": "application/json",
           },
+
           body: JSON.stringify({
             name: form.name.trim(),
             email: form.email.trim(),
@@ -331,7 +368,10 @@ export default function Donation() {
         );
       }
 
-      console.log("Donation order response:", data);
+      console.log(
+        "Donation order response:",
+        data
+      );
 
       if (!response.ok) {
         throw new Error(
@@ -339,10 +379,6 @@ export default function Donation() {
             "Unable to create donation order."
         );
       }
-
-      // =====================================================
-      // STEP 2 — VALIDATE ORDER
-      // =====================================================
 
       if (!data.order_id) {
         throw new Error(
@@ -363,20 +399,15 @@ export default function Donation() {
       }
 
       // =====================================================
-      // STEP 3 — OPEN RAZORPAY
+      // OPEN RAZORPAY
       // =====================================================
-
-      const currency: "INR" =
-        data.currency === "INR"
-          ? "INR"
-          : "INR";
 
       const options: RazorpayOptions = {
         key: data.key_id,
 
         amount: data.amount,
 
-        currency,
+        currency: "INR",
 
         name: "Seva Is Dharma Foundation",
 
@@ -395,43 +426,34 @@ export default function Donation() {
         },
 
         theme: {
-          color: "#f4511e",
+          color: "#16a34a",
         },
 
-        // ===================================================
-        // PAYMENT SUCCESS
-        // ===================================================
+        // ---------------------------------------------------
+        // SUCCESS
+        // ---------------------------------------------------
 
         handler: async (
-          paymentResponse: RazorpayPaymentResponse
+          paymentResponse
         ) => {
-          console.log(
-            "Razorpay payment successful:",
-            paymentResponse
-          );
-
           setMessage(
-            "✅ Payment received. Verifying your donation..."
+            "Payment received. Verifying your donation..."
           );
 
           setError("");
 
-          // Do NOT close/reset anything here.
-          // First verify with Django.
           await verifyPayment(
             paymentResponse,
             data.donation_id
           );
         },
 
-        // ===================================================
-        // USER CLOSES RAZORPAY
-        // ===================================================
+        // ---------------------------------------------------
+        // CLOSE
+        // ---------------------------------------------------
 
         modal: {
           ondismiss: () => {
-            console.log("Razorpay modal dismissed.");
-
             if (!paymentCompleted.current) {
               setLoading(false);
 
@@ -445,11 +467,15 @@ export default function Donation() {
         },
       };
 
-      const razorpay = new window.Razorpay(options);
+      const razorpay =
+        new window.Razorpay(options);
 
       razorpay.open();
     } catch (err) {
-      console.error("Donation error:", err);
+      console.error(
+        "Donation error:",
+        err
+      );
 
       setLoading(false);
 
@@ -462,127 +488,191 @@ export default function Donation() {
   };
 
   // =========================================================
-  // UI
+  // SAME STYLE AS CONTACT FORM
   // =========================================================
 
+  const inputClass =
+    "w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 placeholder:text-gray-500 outline-none transition focus:border-green-600 focus:ring-2 focus:ring-green-100 disabled:bg-gray-100";
+
   return (
-    <div className="rounded-3xl bg-white p-8 shadow-lg">
+    <div className="rounded-3xl bg-white p-6 shadow-lg sm:p-8">
+
       <h3 className="mb-8 text-2xl font-bold text-gray-900">
-        Make a Donation ❤️
+        Make a Donation
       </h3>
 
       <form
         onSubmit={handleSubmit}
         className="space-y-6"
       >
+
         {/* NAME */}
 
-        <input
-          type="text"
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          placeholder="Your Name"
-          autoComplete="name"
-          disabled={loading}
-          className="w-full rounded-xl border border-gray-300 px-4 py-3 focus:border-orange-500 focus:outline-none disabled:bg-gray-100"
-        />
+        <div>
+          <label
+            htmlFor="donation-name"
+            className="mb-2 block text-sm font-semibold text-gray-900"
+          >
+            Your Name
+          </label>
+
+          <input
+            id="donation-name"
+            name="name"
+            type="text"
+            placeholder="Your Name"
+            value={form.name}
+            onChange={handleChange}
+            autoComplete="name"
+            required
+            disabled={loading}
+            className={inputClass}
+          />
+        </div>
 
         {/* EMAIL */}
 
-        <input
-          type="email"
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-          placeholder="Email Address"
-          autoComplete="email"
-          disabled={loading}
-          className="w-full rounded-xl border border-gray-300 px-4 py-3 focus:border-orange-500 focus:outline-none disabled:bg-gray-100"
-        />
+        <div>
+          <label
+            htmlFor="donation-email"
+            className="mb-2 block text-sm font-semibold text-gray-900"
+          >
+            Email Address
+          </label>
+
+          <input
+            id="donation-email"
+            name="email"
+            type="email"
+            placeholder="Email Address"
+            value={form.email}
+            onChange={handleChange}
+            autoComplete="email"
+            required
+            disabled={loading}
+            className={inputClass}
+          />
+        </div>
 
         {/* PHONE */}
 
-        <input
-          type="tel"
-          name="phone"
-          value={form.phone}
-          onChange={handleChange}
-          placeholder="Phone Number"
-          autoComplete="tel"
-          disabled={loading}
-          className="w-full rounded-xl border border-gray-300 px-4 py-3 focus:border-orange-500 focus:outline-none disabled:bg-gray-100"
-        />
+        <div>
+          <label
+            htmlFor="donation-phone"
+            className="mb-2 block text-sm font-semibold text-gray-900"
+          >
+            Phone Number
+          </label>
+
+          <input
+            id="donation-phone"
+            name="phone"
+            type="tel"
+            placeholder="Phone Number"
+            value={form.phone}
+            onChange={handleChange}
+            autoComplete="tel"
+            required
+            disabled={loading}
+            className={inputClass}
+          />
+        </div>
 
         {/* AMOUNT */}
 
-        <div className="relative">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl font-semibold text-gray-700">
-            ₹
-          </span>
+        <div>
+          <label
+            htmlFor="donation-amount"
+            className="mb-2 block text-sm font-semibold text-gray-900"
+          >
+            Donation Amount
+          </label>
 
-          <input
-            type="number"
-            name="amount"
-            value={form.amount}
-            onChange={handleChange}
-            placeholder="Donation Amount"
-            min="1"
-            step="1"
-            disabled={loading}
-            className="w-full rounded-xl border border-gray-300 py-3 pl-12 pr-4 focus:border-orange-500 focus:outline-none disabled:bg-gray-100"
-          />
+          <div className="relative">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-700">
+              ₹
+            </span>
+
+            <input
+              id="donation-amount"
+              name="amount"
+              type="number"
+              placeholder="Enter amount"
+              value={form.amount}
+              onChange={handleChange}
+              min="1"
+              step="1"
+              required
+              disabled={loading}
+              className={`${inputClass} pl-9`}
+            />
+          </div>
         </div>
 
         {/* PURPOSE */}
 
-        <textarea
-          name="purpose"
-          value={form.purpose}
-          onChange={handleChange}
-          rows={5}
-          placeholder="Tell us what you'd like to support"
-          disabled={loading}
-          className="w-full rounded-xl border border-gray-300 px-4 py-3 focus:border-orange-500 focus:outline-none disabled:bg-gray-100"
-        />
+        <div>
+          <label
+            htmlFor="donation-purpose"
+            className="mb-2 block text-sm font-semibold text-gray-900"
+          >
+            Purpose
+          </label>
 
-        {/* BUTTON */}
+          <textarea
+            id="donation-purpose"
+            name="purpose"
+            rows={5}
+            placeholder="Tell us what you'd like to support"
+            value={form.purpose}
+            onChange={handleChange}
+            disabled={loading}
+            className={`${inputClass} resize-none`}
+          />
+        </div>
+
+        {/* DONATE BUTTON */}
 
         <button
           type="submit"
-          disabled={loading || razorpayLoading || !razorpayReady}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-orange-600 py-4 font-semibold text-white transition hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-60"
+          disabled={
+            loading ||
+            razorpayLoading ||
+            !razorpayReady
+          }
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-green-600 py-3.5 font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          <Heart size={20} />
+          <Heart size={19} />
 
           {razorpayLoading
             ? "Loading secure payment system..."
             : loading
             ? "Processing..."
-            : "Donate with Razorpay ❤️"}
+            : "Donate with Razorpay"}
         </button>
 
         {/* SUCCESS */}
 
         {message && (
-          <div className="rounded-xl border border-green-200 bg-green-50 px-5 py-4 text-sm font-medium leading-6 text-green-700">
-            {message}
+          <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm leading-6 text-green-700">
+            ✅ {message}
           </div>
         )}
 
         {/* ERROR */}
 
         {error && (
-          <div className="rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-medium leading-6 text-red-600">
-            {error}
+          <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm leading-6 text-red-700">
+            ❌ {error}
           </div>
         )}
 
         {/* SECURITY */}
 
-        <p className="text-center text-sm text-gray-500">
+        <p className="text-center text-sm leading-6 text-gray-500">
           🔒 Your payment is securely processed through Razorpay.
         </p>
+
       </form>
     </div>
   );
