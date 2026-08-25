@@ -10,12 +10,12 @@ export default function Hero() {
     >
       {/* Hero Image */}
       <Image
-        src="/images/hero.jpg"
+        src="/images/hero.webp"
         alt="Seva Is Dharma Foundation"
         fill
         priority
-        sizes="100vw"
-        quality={80}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
+        quality={65}
         className="object-cover object-center"
       />
 
@@ -49,19 +49,19 @@ export default function Hero() {
         <FadeIn delay={0.4}>
           <div className="mx-auto mt-7 flex w-full max-w-3xl flex-wrap justify-center gap-2 px-1 sm:mt-8 sm:gap-3">
 
-            <span className="max-w-full break-words rounded-full bg-white/20 px-3 py-1.5 text-xs leading-5 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-orange-500/70 sm:px-4 sm:py-2 sm:text-sm">
+            <span className="max-w-full break-words rounded-full bg-white/20 px-3 py-1.5 text-xs leading-5 sm:px-4 sm:py-2 sm:text-sm">
               🐾 Animal Welfare
             </span>
 
-            <span className="max-w-full break-words rounded-full bg-white/20 px-3 py-1.5 text-xs leading-5 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-orange-500/70 sm:px-4 sm:py-2 sm:text-sm">
+            <span className="max-w-full break-words rounded-full bg-white/20 px-3 py-1.5 text-xs leading-5 sm:px-4 sm:py-2 sm:text-sm">
               🍛 Food Distribution
             </span>
 
-            <span className="max-w-full break-words rounded-full bg-white/20 px-3 py-1.5 text-xs leading-5 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-orange-500/70 sm:px-4 sm:py-2 sm:text-sm">
+            <span className="max-w-full break-words rounded-full bg-white/20 px-3 py-1.5 text-xs leading-5 sm:px-4 sm:py-2 sm:text-sm">
               🌳 Tree Plantation
             </span>
 
-            <span className="max-w-full break-words rounded-full bg-white/20 px-3 py-1.5 text-xs leading-5 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-orange-500/70 sm:px-4 sm:py-2 sm:text-sm">
+            <span className="max-w-full break-words rounded-full bg-white/20 px-3 py-1.5 text-xs leading-5 sm:px-4 sm:py-2 sm:text-sm">
               🌍 Environment Protection
             </span>
 
