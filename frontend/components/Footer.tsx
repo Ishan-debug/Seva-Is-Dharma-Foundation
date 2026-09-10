@@ -15,15 +15,21 @@ export default function Footer() {
 
           {/* Foundation */}
           <div className="min-w-0">
-            <Link href="/" className="group inline-flex items-center">
-              <Image
-                src="/images/logo.png"
-                alt="Seva Is Dharma Foundation"
-                width={220}
-                height={220}
-                priority={false}
-                className="h-24 w-24 object-contain transition-transform duration-300 group-hover:scale-105 sm:h-28 sm:w-28"
-              />
+            <Link
+              href="/"
+              className="group inline-flex items-center"
+              aria-label="Seva Is Dharma Foundation Home"
+            >
+              <div className="relative h-24 w-24 sm:h-28 sm:w-28">
+                <Image
+                  src="/images/logo.png"
+                  alt="Seva Is Dharma Foundation logo"
+                  fill
+                  unoptimized
+                  sizes="112px"
+                  className="object-contain transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
             </Link>
 
             <h2 className="mt-4 text-xl font-bold text-white sm:text-2xl">
@@ -47,8 +53,6 @@ export default function Footer() {
 
             {/* Social Media */}
             <div className="mt-6 flex flex-wrap gap-3">
-
-              {/* Instagram */}
               <a
                 href="https://instagram.com/sevaisdharmafoundation"
                 target="_blank"
@@ -60,7 +64,6 @@ export default function Footer() {
                 Instagram
               </a>
 
-              {/* X */}
               <a
                 href="https://x.com/SevaIsDharma"
                 target="_blank"
@@ -81,60 +84,12 @@ export default function Footer() {
             </h3>
 
             <ul className="space-y-3">
-              <li>
-                <Link
-                  href="/"
-                  className="transition hover:text-orange-400"
-                >
-                  Home
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/about"
-                  className="transition hover:text-orange-400"
-                >
-                  About Us
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/causes"
-                  className="transition hover:text-orange-400"
-                >
-                  Our Causes
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/gallery"
-                  className="transition hover:text-orange-400"
-                >
-                  Gallery
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/volunteer"
-                  className="transition hover:text-orange-400"
-                >
-                  Volunteer
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/contact"
-                  className="transition hover:text-orange-400"
-                >
-                  Contact
-                </Link>
-              </li>
-
+              <li><Link href="/" className="transition hover:text-orange-400">Home</Link></li>
+              <li><Link href="/about" className="transition hover:text-orange-400">About Us</Link></li>
+              <li><Link href="/causes" className="transition hover:text-orange-400">Our Causes</Link></li>
+              <li><Link href="/gallery" className="transition hover:text-orange-400">Gallery</Link></li>
+              <li><Link href="/volunteer" className="transition hover:text-orange-400">Volunteer</Link></li>
+              <li><Link href="/contact" className="transition hover:text-orange-400">Contact</Link></li>
               <li>
                 <Link
                   href="/donate"
@@ -146,7 +101,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Causes & Legal */}
+          {/* Explore & Legal */}
           <div>
             <h3 className="mb-5 text-xl font-semibold text-white">
               Explore
@@ -154,37 +109,22 @@ export default function Footer() {
 
             <ul className="space-y-3">
               <li>
-                <Link
-                  href="/causes/animal-welfare"
-                  className="transition hover:text-orange-400"
-                >
+                <Link href="/causes/animal-welfare" className="transition hover:text-orange-400">
                   🐾 Animal Welfare
                 </Link>
               </li>
-
               <li>
-                <Link
-                  href="/causes/food-distribution"
-                  className="transition hover:text-orange-400"
-                >
+                <Link href="/causes/food-distribution" className="transition hover:text-orange-400">
                   🍛 Food Distribution
                 </Link>
               </li>
-
               <li>
-                <Link
-                  href="/causes/tree-plantation"
-                  className="transition hover:text-orange-400"
-                >
+                <Link href="/causes/tree-plantation" className="transition hover:text-orange-400">
                   🌳 Tree Plantation
                 </Link>
               </li>
-
               <li>
-                <Link
-                  href="/causes/environment"
-                  className="transition hover:text-orange-400"
-                >
+                <Link href="/causes/environment" className="transition hover:text-orange-400">
                   🌍 Environment Protection
                 </Link>
               </li>
@@ -196,28 +136,17 @@ export default function Footer() {
 
             <ul className="space-y-3">
               <li>
-                <Link
-                  href="/privacy-policy"
-                  className="transition hover:text-orange-400"
-                >
+                <Link href="/privacy-policy" className="transition hover:text-orange-400">
                   Privacy Policy
                 </Link>
               </li>
-
               <li>
-                <Link
-                  href="/terms"
-                  className="transition hover:text-orange-400"
-                >
+                <Link href="/terms" className="transition hover:text-orange-400">
                   Terms & Conditions
                 </Link>
               </li>
-
               <li>
-                <Link
-                  href="/disclaimer"
-                  className="transition hover:text-orange-400"
-                >
+                <Link href="/disclaimer" className="transition hover:text-orange-400">
                   Disclaimer
                 </Link>
               </li>
@@ -232,7 +161,6 @@ export default function Footer() {
 
             <div className="space-y-5">
 
-              {/* Phone */}
               <a
                 href="tel:+919199233328"
                 className="flex items-start gap-3 transition hover:text-orange-400"
@@ -241,13 +169,11 @@ export default function Footer() {
                   size={18}
                   className="mt-1 shrink-0 text-orange-400"
                 />
-
                 <span className="break-words">
                   +91 91992 33328
                 </span>
               </a>
 
-              {/* Email */}
               <a
                 href="mailto:contact@sevaisdharmafoundation.org"
                 className="flex items-start gap-3 transition hover:text-orange-400"
@@ -256,19 +182,16 @@ export default function Footer() {
                   size={18}
                   className="mt-1 shrink-0 text-orange-400"
                 />
-
                 <span className="break-all">
                   contact@sevaisdharmafoundation.org
                 </span>
               </a>
 
-              {/* Location */}
               <div className="flex items-start gap-3">
                 <MapPin
                   size={18}
                   className="mt-1 shrink-0 text-orange-400"
                 />
-
                 <span>
                   Singh More
                   <br />

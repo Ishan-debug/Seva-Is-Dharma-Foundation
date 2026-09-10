@@ -44,8 +44,8 @@ export default function Navbar() {
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        
-        {/* Logo + Foundation Name */}
+
+        {/* Brand */}
         <Link
           href="/"
           onClick={closeMenu}
@@ -58,6 +58,7 @@ export default function Navbar() {
               alt="Seva Is Dharma Foundation logo"
               fill
               priority
+              unoptimized
               sizes="56px"
               className="object-contain"
             />
@@ -90,7 +91,7 @@ export default function Navbar() {
             href="/donate"
             className="rounded-full bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-md"
           >
-            ❤️ Donate
+            Donate 💗
           </Link>
         </div>
 
@@ -99,14 +100,16 @@ export default function Navbar() {
           type="button"
           onClick={() => setMenuOpen((prev) => !prev)}
           className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 text-gray-800 transition hover:border-orange-300 hover:text-orange-600 lg:hidden"
-          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-label={
+            menuOpen ? "Close navigation menu" : "Open navigation menu"
+          }
           aria-expanded={menuOpen}
         >
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </nav>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Menu */}
       {menuOpen && (
         <div className="border-t border-gray-200 bg-white shadow-lg lg:hidden">
           <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
@@ -127,7 +130,7 @@ export default function Navbar() {
                 onClick={closeMenu}
                 className="mt-2 rounded-xl bg-orange-500 px-4 py-3 text-center text-base font-semibold text-white transition hover:bg-orange-600"
               >
-                ❤️ Donate Now
+                Donate Now 💗
               </Link>
             </div>
           </div>
