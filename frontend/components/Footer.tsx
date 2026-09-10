@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   Heart,
@@ -14,12 +15,20 @@ export default function Footer() {
 
           {/* Foundation */}
           <div className="min-w-0">
-            <Link
-              href="/"
-              className="text-xl font-bold text-white transition hover:text-orange-400 sm:text-2xl"
-            >
-              Seva Is Dharma Foundation
+            <Link href="/" className="group inline-flex items-center">
+              <Image
+                src="/images/logo.png"
+                alt="Seva Is Dharma Foundation"
+                width={220}
+                height={220}
+                priority={false}
+                className="h-24 w-24 object-contain transition-transform duration-300 group-hover:scale-105 sm:h-28 sm:w-28"
+              />
             </Link>
+
+            <h2 className="mt-4 text-xl font-bold text-white sm:text-2xl">
+              Seva Is Dharma Foundation
+            </h2>
 
             <p className="mt-5 text-sm leading-7 text-gray-400 sm:text-base">
               Dedicated to animal welfare, feeding the hungry, tree plantation,
@@ -62,7 +71,6 @@ export default function Footer() {
                 <span className="font-bold">𝕏</span>
                 X
               </a>
-
             </div>
           </div>
 
@@ -74,7 +82,10 @@ export default function Footer() {
 
             <ul className="space-y-3">
               <li>
-                <Link href="/" className="transition hover:text-orange-400">
+                <Link
+                  href="/"
+                  className="transition hover:text-orange-400"
+                >
                   Home
                 </Link>
               </li>
@@ -233,28 +244,23 @@ export default function Footer() {
 
                 <span className="break-words">
                   +91 91992 33328
-
-                  <span className="block text-xs text-gray-500">
-                    Temporary contact number
-                  </span>
                 </span>
               </a>
 
               {/* Email */}
-              <div className="flex items-start gap-3">
+              <a
+                href="mailto:contact@sevaisdharmafoundation.org"
+                className="flex items-start gap-3 transition hover:text-orange-400"
+              >
                 <Mail
                   size={18}
                   className="mt-1 shrink-0 text-orange-400"
                 />
 
                 <span className="break-all">
-                  contact@sevaisdharma.org
-
-                  <span className="mt-1 block break-normal text-xs text-gray-500">
-                    Official email coming soon
-                  </span>
+                  contact@sevaisdharmafoundation.org
                 </span>
-              </div>
+              </a>
 
               {/* Location */}
               <div className="flex items-start gap-3">
@@ -269,10 +275,6 @@ export default function Footer() {
                   Ranchi, Jharkhand – 834003
                   <br />
                   India
-
-                  <span className="mt-1 block text-xs text-gray-500">
-                    Temporary office information
-                  </span>
                 </span>
               </div>
 
@@ -285,7 +287,7 @@ export default function Footer() {
               </p>
 
               <p className="mt-2 text-xs leading-6 text-gray-500">
-                Seva Is Dharma Foundation is an independent, non-political
+                Seva Is Dharma Foundation is an independent, non-partisan
                 organization. We do not endorse or operate on behalf of any
                 political party.
               </p>
