@@ -25,17 +25,17 @@ export default function Hero() {
       {/* Hero Content */}
       <div className="relative z-10 w-full max-w-5xl px-4 py-20 text-center text-white sm:px-6 sm:py-28">
 
-        {/* Official Foundation Logo */}
+        {/* Official Logo - Subtle */}
         <FadeIn>
-          <div className="mx-auto mb-6 flex justify-center sm:mb-8">
-            <div className="relative h-28 w-28 drop-shadow-2xl sm:h-36 sm:w-36 md:h-40 md:w-40">
+          <div className="mx-auto mb-4 flex justify-center sm:mb-5">
+            <div className="relative h-16 w-16 opacity-95 drop-shadow-xl sm:h-20 sm:w-20">
               <Image
                 src="/images/logo.png"
                 alt="Seva Is Dharma Foundation logo"
                 fill
                 priority
                 unoptimized
-                sizes="160px"
+                sizes="80px"
                 className="object-contain"
               />
             </div>
