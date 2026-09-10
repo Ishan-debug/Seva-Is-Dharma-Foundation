@@ -1,21 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      setScrolled(window.scrollY > 20);
     };
 
     handleScroll();
-
     window.addEventListener("scroll", handleScroll);
 
     return () => {
@@ -23,47 +22,39 @@ export default function Navbar() {
     };
   }, []);
 
+  const navLinks = [
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Causes", href: "/causes" },
+    { name: "Gallery", href: "/gallery" },
+    { name: "Volunteer", href: "/volunteer" },
+    { name: "Contact", href: "/contact" },
+  ];
+
   const closeMenu = () => {
-    setIsOpen(false);
+    setMenuOpen(false);
   };
 
-  const navLinkClass = `
-    relative font-medium transition duration-300
-    after:absolute after:-bottom-1 after:left-0
-    after:h-[2px] after:w-0
-    after:bg-orange-500
-    after:transition-all after:duration-300
-    hover:text-orange-500 hover:after:w-full
-  `;
-
-  const mobileLinkClass = `
-    font-medium transition-colors duration-200
-  `;
-
   return (
-    <nav
-      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-gray-200/70 bg-white/90 py-2 shadow-md backdrop-blur-lg"
-          : "border-b border-white/10 bg-black/10 py-3 backdrop-blur-[2px]"
+          ? "border-b border-gray-200 bg-white/95 shadow-md backdrop-blur-md"
+          : "bg-white/90 backdrop-blur-sm"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-
-        {/* =================================================
-            BRAND
-        ================================================== */}
-
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+        
+        {/* Logo + Foundation Name */}
         <Link
           href="/"
           onClick={closeMenu}
           className="flex min-w-0 items-center gap-3"
           aria-label="Seva Is Dharma Foundation Home"
         >
-          {/* Logo */}
           <div className="relative h-12 w-12 shrink-0 sm:h-14 sm:w-14">
             <Image
-              src="/images/seva-is-dharma-logo.png"
+              src="/images/logo.png"
               alt="Seva Is Dharma Foundation logo"
               fill
               priority
@@ -72,224 +63,76 @@ export default function Navbar() {
             />
           </div>
 
-          {/* Foundation name */}
           <div className="min-w-0">
-            <h1
-              className={`truncate text-sm font-semibold tracking-[0.03em] transition-colors duration-300 sm:text-base ${
-                scrolled
-                  ? "text-orange-600"
-                  : "text-white drop-shadow-md"
-              }`}
-            >
+            <p className="truncate text-sm font-bold leading-tight text-gray-900 sm:text-base md:text-lg">
               Seva Is Dharma Foundation
-            </h1>
+            </p>
 
-            <p
-              className={`hidden text-xs tracking-wide transition-colors duration-300 md:block ${
-                scrolled
-                  ? "text-green-700"
-                  : "text-white/80"
-              }`}
-            >
+            <p className="hidden text-xs font-medium text-orange-600 sm:block">
               Helping is Bhakti • सेवा परमो धर्मः
             </p>
           </div>
         </Link>
 
-        {/* =================================================
-            DESKTOP NAVIGATION
-        ================================================== */}
+        {/* Desktop Navigation */}
+        <div className="hidden items-center gap-5 lg:flex">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className="text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-orange-600"
+            >
+              {link.name}
+            </Link>
+          ))}
 
-        <div className="hidden items-center gap-8 md:flex">
-          <Link
-            href="/"
-            className={`${navLinkClass} ${
-              scrolled ? "text-gray-800" : "text-white"
-            }`}
-          >
-            Home
-          </Link>
-
-          <Link
-            href="/about"
-            className={`${navLinkClass} ${
-              scrolled ? "text-gray-800" : "text-white"
-            }`}
-          >
-            About
-          </Link>
-
-          <Link
-            href="/causes"
-            className={`${navLinkClass} ${
-              scrolled ? "text-gray-800" : "text-white"
-            }`}
-          >
-            Causes
-          </Link>
-
-          <Link
-            href="/#gallery"
-            className={`${navLinkClass} ${
-              scrolled ? "text-gray-800" : "text-white"
-            }`}
-          >
-            Gallery
-          </Link>
-
-          <Link
-            href="/#volunteer"
-            className={`${navLinkClass} ${
-              scrolled ? "text-gray-800" : "text-white"
-            }`}
-          >
-            Volunteer
-          </Link>
-
-          <Link
-            href="/#contact"
-            className={`${navLinkClass} ${
-              scrolled ? "text-gray-800" : "text-white"
-            }`}
-          >
-            Contact
-          </Link>
-
-          {/* Donate */}
           <Link
             href="/donate"
-            className="rounded-full bg-orange-600 px-6 py-2 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-700 hover:shadow-xl"
+            className="rounded-full bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-md"
           >
-            Donate ❤️
+            ❤️ Donate
           </Link>
         </div>
 
-        {/* =================================================
-            MOBILE MENU BUTTON
-        ================================================== */}
-
+        {/* Mobile Menu Button */}
         <button
           type="button"
-          onClick={() => setIsOpen((previous) => !previous)}
-          aria-label={isOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isOpen}
-          className={`rounded-lg p-2 transition-all duration-200 hover:scale-105 md:hidden ${
-            scrolled
-              ? "text-gray-900"
-              : "text-white"
-          }`}
+          onClick={() => setMenuOpen((prev) => !prev)}
+          className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 text-gray-800 transition hover:border-orange-300 hover:text-orange-600 lg:hidden"
+          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={menuOpen}
         >
-          {isOpen ? (
-            <X size={28} strokeWidth={2} />
-          ) : (
-            <Menu size={28} strokeWidth={2} />
-          )}
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-      </div>
+      </nav>
 
-      {/* =================================================
-          MOBILE MENU
-      ================================================== */}
+      {/* Mobile Navigation */}
+      {menuOpen && (
+        <div className="border-t border-gray-200 bg-white shadow-lg lg:hidden">
+          <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
+            <div className="flex flex-col gap-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={closeMenu}
+                  className="rounded-xl px-4 py-3 text-base font-medium text-gray-700 transition hover:bg-orange-50 hover:text-orange-600"
+                >
+                  {link.name}
+                </Link>
+              ))}
 
-      <div
-        className={`overflow-hidden transition-all duration-300 md:hidden ${
-          isOpen
-            ? "max-h-[500px] opacity-100"
-            : "max-h-0 opacity-0"
-        }`}
-      >
-        <div
-          className={`border-t px-5 py-5 shadow-xl backdrop-blur-xl ${
-            scrolled
-              ? "border-gray-200 bg-white/95"
-              : "border-white/20 bg-black/80"
-          }`}
-        >
-          <div className="flex flex-col gap-4">
-
-            <Link
-              href="/"
-              onClick={closeMenu}
-              className={`${mobileLinkClass} ${
-                scrolled
-                  ? "text-gray-900 hover:text-orange-600"
-                  : "text-white hover:text-orange-400"
-              }`}
-            >
-              Home
-            </Link>
-
-            <Link
-              href="/about"
-              onClick={closeMenu}
-              className={`${mobileLinkClass} ${
-                scrolled
-                  ? "text-gray-900 hover:text-orange-600"
-                  : "text-white hover:text-orange-400"
-              }`}
-            >
-              About
-            </Link>
-
-            <Link
-              href="/causes"
-              onClick={closeMenu}
-              className={`${mobileLinkClass} ${
-                scrolled
-                  ? "text-gray-900 hover:text-orange-600"
-                  : "text-white hover:text-orange-400"
-              }`}
-            >
-              Causes
-            </Link>
-
-            <Link
-              href="/#gallery"
-              onClick={closeMenu}
-              className={`${mobileLinkClass} ${
-                scrolled
-                  ? "text-gray-900 hover:text-orange-600"
-                  : "text-white hover:text-orange-400"
-              }`}
-            >
-              Gallery
-            </Link>
-
-            <Link
-              href="/#volunteer"
-              onClick={closeMenu}
-              className={`${mobileLinkClass} ${
-                scrolled
-                  ? "text-gray-900 hover:text-orange-600"
-                  : "text-white hover:text-orange-400"
-              }`}
-            >
-              Volunteer
-            </Link>
-
-            <Link
-              href="/#contact"
-              onClick={closeMenu}
-              className={`${mobileLinkClass} ${
-                scrolled
-                  ? "text-gray-900 hover:text-orange-600"
-                  : "text-white hover:text-orange-400"
-              }`}
-            >
-              Contact
-            </Link>
-
-            <Link
-              href="/donate"
-              onClick={closeMenu}
-              className="mt-1 rounded-full bg-orange-600 py-3 text-center font-semibold text-white transition-colors duration-200 hover:bg-orange-700"
-            >
-              Donate ❤️
-            </Link>
-
+              <Link
+                href="/donate"
+                onClick={closeMenu}
+                className="mt-2 rounded-xl bg-orange-500 px-4 py-3 text-center text-base font-semibold text-white transition hover:bg-orange-600"
+              >
+                ❤️ Donate Now
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      )}
+    </header>
   );
 }
