@@ -23,13 +23,13 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Causes", href: "/causes" },
-    { name: "Gallery", href: "/gallery" },
-    { name: "Volunteer", href: "/volunteer" },
-    { name: "Contact", href: "/contact" },
-  ];
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Causes", href: "/causes" },
+  { name: "Gallery", href: "/#gallery" },
+  { name: "Volunteer", href: "/#volunteer" },
+  { name: "Contact", href: "/#contact" },
+];
 
   const closeMenu = () => {
     setMenuOpen(false);
