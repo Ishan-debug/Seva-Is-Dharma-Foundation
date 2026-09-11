@@ -9,47 +9,59 @@ export default function ContactInfo() {
 
       <div className="space-y-8">
 
+        {/* Phone */}
         <div className="flex gap-4">
           <Phone className="mt-1 h-6 w-6 text-green-600" />
+
           <div>
             <h4 className="font-semibold">Phone</h4>
+
             <a
               href="tel:+919199233328"
-              className="text-gray-600 hover:text-green-600"
+              className="text-gray-600 transition-colors hover:text-green-600"
             >
               +91 91992 33328
             </a>
           </div>
         </div>
 
+        {/* Email */}
         <div className="flex gap-4">
           <Mail className="mt-1 h-6 w-6 text-green-600" />
+
           <div>
             <h4 className="font-semibold">Email</h4>
-            <p className="text-gray-600">
-              contact@sevaisdharma.org
-            </p>
-            <span className="text-sm text-gray-500">
-              Coming Soon
-            </span>
+
+            <a
+              href="mailto:contact@sevaisdharmafoundation.org"
+              className="text-gray-600 transition-colors hover:text-green-600"
+            >
+              contact@sevaisdharmafoundation.org
+            </a>
           </div>
         </div>
 
+        {/* Head Office */}
         <div className="flex gap-4">
           <MapPin className="mt-1 h-6 w-6 text-green-600" />
+
           <div>
             <h4 className="font-semibold">Head Office</h4>
 
             <p className="text-gray-600">
-              Singh More<br />
-              Ranchi, Jharkhand – 834003<br />
+              Singh More
+              <br />
+              Ranchi, Jharkhand – 834003
+              <br />
               India
             </p>
           </div>
         </div>
 
+        {/* Service Areas */}
         <div className="flex gap-4">
           <MapPin className="mt-1 h-6 w-6 text-green-600" />
+
           <div>
             <h4 className="font-semibold">
               Service Areas
@@ -62,15 +74,17 @@ export default function ContactInfo() {
             </ul>
 
             <p className="mt-4 text-gray-600">
-              We are continuously expanding our outreach and aspire to serve more
-              communities across India through compassion, volunteerism, and
-              sustainable initiatives.
+              We are continuously expanding our outreach and aspire
+              to serve more communities across India through
+              compassion, volunteerism, and sustainable initiatives.
             </p>
           </div>
         </div>
 
+        {/* Working Hours */}
         <div className="flex gap-4">
           <Clock className="mt-1 h-6 w-6 text-green-600" />
+
           <div>
             <h4 className="font-semibold">
               Working Hours
