@@ -1,10 +1,18 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import {
+  CheckCircle,
+  Heart,
+  MapPin,
+  Phone,
+  Send,
+  User,
+  Mail,
+} from "lucide-react";
 
 const API_URL = (
-  process.env.NEXT_PUBLIC_API_URL ||
-  "http://127.0.0.1:8000"
+  process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"
 ).replace(/\/$/, "");
 
 const INTEREST_OPTIONS = [
@@ -14,24 +22,30 @@ const INTEREST_OPTIONS = [
   "Environment Protection",
 ];
 
-export default function Volunteer() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    city: "",
-    area_of_interest: "Animal Welfare",
-    message: "",
-  });
+type VolunteerForm = {
+  name: string;
+  email: string;
+  phone: string;
+  city: string;
+  interest: string;
+};
 
-  const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState("");
+const INITIAL_FORM: VolunteerForm = {
+  name: "",
+  email: "",
+  phone: "",
+  city: "",
+  interest: "",
+};
+
+export default function Volunteer() {
+  const [form, setForm] = useState<VolunteerForm>(INITIAL_FORM);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
 
@@ -41,13 +55,11 @@ export default function Volunteer() {
     }));
   };
 
-  const handleSubmit = async (
-    e: FormEvent<HTMLFormElement>
-  ) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setSubmitting(true);
-    setSuccess("");
+    setLoading(true);
+    setMessage("");
     setError("");
 
     try {
@@ -62,272 +74,351 @@ export default function Volunteer() {
         }
       );
 
-      let data: Record<string, unknown> = {};
-
-      try {
-        data = await response.json();
-      } catch {
-        data = {};
-      }
+      const data = await response.json().catch(() => null);
 
       if (!response.ok) {
-        const serverError =
-          typeof data.error === "string"
-            ? data.error
-            : typeof data.detail === "string"
-              ? data.detail
-              : "Unable to submit the volunteer form.";
+        let errorMessage = "Unable to submit your volunteer registration.";
 
-        throw new Error(serverError);
+        if (data) {
+          if (typeof data.detail === "string") {
+            errorMessage = data.detail;
+          } else if (typeof data.error === "string") {
+            errorMessage = data.error;
+          } else if (typeof data === "object") {
+            const firstError = Object.values(data).flat()[0];
+
+            if (typeof firstError === "string") {
+              errorMessage = firstError;
+            }
+          }
+        }
+
+        throw new Error(errorMessage);
       }
 
-      setSuccess(
-        "🎉 Thank you for joining Seva Is Dharma Foundation! " +
-          "Your volunteer registration has been received. " +
-          "Stay connected for future seva activities, events, and opportunities."
+      setMessage(
+        "Thank you for joining Seva Is Dharma Foundation. Your volunteer registration has been submitted successfully."
       );
 
-      setError("");
-
-      setForm({
-        name: "",
-        email: "",
-        phone: "",
-        city: "",
-        area_of_interest: "Animal Welfare",
-        message: "",
-      });
+      setForm(INITIAL_FORM);
     } catch (submitError) {
-      console.error(
-        "Volunteer registration error:",
-        submitError
-      );
+      console.error("Volunteer registration error:", submitError);
 
       setError(
         submitError instanceof Error
           ? submitError.message
-          : "Unable to connect to the server."
+          : "Unable to connect to the volunteer server. Please try again."
       );
     } finally {
-      setSubmitting(false);
+      setLoading(false);
     }
   };
 
   const inputClass =
-    "w-full rounded-xl border border-gray-300 bg-white p-3.5 text-base font-medium text-gray-900 placeholder:text-gray-500 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100";
+    "w-full rounded-xl border border-gray-300 bg-white px-4 py-3.5 text-base font-medium text-gray-900 placeholder:text-gray-500 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100";
 
   return (
     <section
       id="volunteer"
-      className="bg-gradient-to-br from-orange-50 via-white to-orange-100 py-16 sm:py-20 lg:py-24"
+      className="bg-gradient-to-br from-orange-50 via-white to-green-50 py-16 sm:py-20 lg:py-24"
     >
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16">
+      <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
 
         {/* LEFT SIDE */}
-
         <div className="flex flex-col justify-center">
-          <span className="inline-block w-fit rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700">
+          <span className="inline-block w-fit rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold text-orange-700">
             JOIN OUR MISSION
           </span>
 
-          <h2 className="mt-6 text-3xl font-bold leading-tight text-gray-900 sm:text-4xl">
+          <h2 className="mt-6 text-3xl font-bold leading-tight text-gray-900 sm:text-4xl lg:text-5xl">
             Become a Volunteer ❤️
           </h2>
 
-          <p className="mt-6 text-base leading-7 text-gray-700 sm:text-lg sm:leading-8">
-            Every act of kindness makes a difference.
-            Join Seva Is Dharma Foundation and help us
-            protect animals, feed the hungry, plant trees,
-            and build a cleaner, greener future.
+          <p className="mt-6 max-w-2xl text-base leading-7 text-gray-700 sm:text-lg sm:leading-8">
+            Your time, energy, and compassion can make a real difference.
+            Join Seva Is Dharma Foundation and help us serve people, protect
+            animals, and care for nature.
           </p>
 
-          <div className="mt-8 space-y-3 text-base font-medium text-gray-800 sm:text-lg">
-            <p>🐾 Animal Welfare</p>
-            <p>🍛 Food Distribution</p>
-            <p>🌳 Tree Plantation</p>
-            <p>🌍 Environment Protection</p>
+          {/* Benefits */}
+          <div className="mt-8 space-y-5">
+            <div className="flex items-start gap-4">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-100 text-orange-600">
+                <Heart size={21} fill="currentColor" />
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-gray-900">
+                  Serve with Compassion
+                </h3>
+                <p className="mt-1 text-sm leading-6 text-gray-600">
+                  Turn your willingness to help into meaningful Seva.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-green-100 text-green-700">
+                <CheckCircle size={21} />
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-gray-900">
+                  Choose Your Cause
+                </h3>
+                <p className="mt-1 text-sm leading-6 text-gray-600">
+                  Support the area where you feel you can contribute most.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-100 text-orange-600">
+                <MapPin size={21} />
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-gray-900">
+                  Make a Local Impact
+                </h3>
+                <p className="mt-1 text-sm leading-6 text-gray-600">
+                  Be part of community-focused Seva activities.
+                </p>
+              </div>
+            </div>
           </div>
 
-          <p className="mt-8 text-sm font-semibold text-green-700 sm:text-base">
-            सेवा परमो धर्मः ❤️
-          </p>
+          {/* Cause List */}
+          <div className="mt-9 rounded-2xl border border-orange-100 bg-white/80 p-5 shadow-sm sm:p-6">
+            <h3 className="font-semibold text-gray-900">
+              Current Focus Areas
+            </h3>
+
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <p className="text-sm font-medium text-gray-700">
+                🐾 Animal Welfare
+              </p>
+
+              <p className="text-sm font-medium text-gray-700">
+                🍛 Food Distribution
+              </p>
+
+              <p className="text-sm font-medium text-gray-700">
+                🌳 Tree Plantation
+              </p>
+
+              <p className="text-sm font-medium text-gray-700">
+                🌍 Environment Protection
+              </p>
+            </div>
+          </div>
         </div>
 
-        {/* FORM */}
+        {/* RIGHT SIDE — FORM */}
+        <div className="rounded-3xl bg-white p-6 shadow-xl sm:p-8 lg:p-10">
+          <div className="mb-8">
+            <span className="text-sm font-semibold uppercase tracking-wide text-orange-600">
+              Volunteer Registration
+            </span>
 
-        <div className="rounded-3xl bg-white p-5 shadow-xl sm:p-8">
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-5"
-          >
-            {/* FULL NAME */}
+            <h3 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl">
+              Start Your Seva Journey
+            </h3>
 
+            <p className="mt-3 text-sm leading-6 text-gray-600 sm:text-base">
+              Fill in your details and tell us how you would like to help.
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+
+            {/* Name */}
             <div>
               <label
-                htmlFor="name"
+                htmlFor="volunteer-name"
                 className="mb-2 block text-sm font-semibold text-gray-900"
               >
                 Full Name
               </label>
 
-              <input
-                id="name"
-                name="name"
-                type="text"
-                value={form.name}
-                onChange={handleChange}
-                placeholder="Enter your full name"
-                required
-                className={inputClass}
-              />
+              <div className="relative">
+                <User
+                  size={18}
+                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
+                />
+
+                <input
+                  id="volunteer-name"
+                  type="text"
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="Enter your full name"
+                  autoComplete="name"
+                  required
+                  className={`${inputClass} pl-11`}
+                />
+              </div>
             </div>
 
-            {/* EMAIL */}
-
+            {/* Email */}
             <div>
               <label
-                htmlFor="email"
+                htmlFor="volunteer-email"
                 className="mb-2 block text-sm font-semibold text-gray-900"
               >
                 Email Address
               </label>
 
-              <input
-                id="email"
-                name="email"
-                type="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="Enter your email address"
-                required
-                className={inputClass}
-              />
+              <div className="relative">
+                <Mail
+                  size={18}
+                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
+                />
+
+                <input
+                  id="volunteer-email"
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder="Enter your email address"
+                  autoComplete="email"
+                  required
+                  className={`${inputClass} pl-11`}
+                />
+              </div>
             </div>
 
-            {/* PHONE */}
-
+            {/* Phone */}
             <div>
               <label
-                htmlFor="phone"
+                htmlFor="volunteer-phone"
                 className="mb-2 block text-sm font-semibold text-gray-900"
               >
                 Phone Number
               </label>
 
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                value={form.phone}
-                onChange={handleChange}
-                placeholder="Enter your phone number"
-                required
-                className={inputClass}
-              />
+              <div className="relative">
+                <Phone
+                  size={18}
+                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
+                />
+
+                <input
+                  id="volunteer-phone"
+                  type="tel"
+                  name="phone"
+                  value={form.phone}
+                  onChange={handleChange}
+                  placeholder="Enter your phone number"
+                  autoComplete="tel"
+                  required
+                  className={`${inputClass} pl-11`}
+                />
+              </div>
             </div>
 
-            {/* CITY */}
-
+            {/* City */}
             <div>
               <label
-                htmlFor="city"
+                htmlFor="volunteer-city"
                 className="mb-2 block text-sm font-semibold text-gray-900"
               >
                 City
               </label>
 
-              <input
-                id="city"
-                name="city"
-                type="text"
-                value={form.city}
-                onChange={handleChange}
-                placeholder="Enter your city"
-                required
-                className={inputClass}
-              />
+              <div className="relative">
+                <MapPin
+                  size={18}
+                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
+                />
+
+                <input
+                  id="volunteer-city"
+                  type="text"
+                  name="city"
+                  value={form.city}
+                  onChange={handleChange}
+                  placeholder="e.g. Ranchi"
+                  autoComplete="address-level2"
+                  required
+                  className={`${inputClass} pl-11`}
+                />
+              </div>
             </div>
 
-            {/* AREA OF INTEREST */}
-
+            {/* Interest */}
             <div>
               <label
-                htmlFor="area_of_interest"
+                htmlFor="volunteer-interest"
                 className="mb-2 block text-sm font-semibold text-gray-900"
               >
-                Area of Interest
+                How would you like to help?
               </label>
 
               <select
-                id="area_of_interest"
-                name="area_of_interest"
-                value={form.area_of_interest}
+                id="volunteer-interest"
+                name="interest"
+                value={form.interest}
                 onChange={handleChange}
                 required
-                className={inputClass}
+                className={`${inputClass} appearance-none`}
               >
+                <option value="" disabled>
+                  Select an area
+                </option>
+
                 {INTEREST_OPTIONS.map((interest) => (
-                  <option
-                    key={interest}
-                    value={interest}
-                  >
+                  <option key={interest} value={interest}>
                     {interest}
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* MESSAGE */}
+            {/* Success */}
+            {message && (
+              <div className="flex items-start gap-3 rounded-xl border border-green-200 bg-green-50 p-4 text-sm font-medium leading-6 text-green-700">
+                <CheckCircle
+                  size={20}
+                  className="mt-0.5 shrink-0"
+                />
 
-            <div>
-              <label
-                htmlFor="message"
-                className="mb-2 block text-sm font-semibold text-gray-900"
-              >
-                Message{" "}
-                <span className="font-normal text-gray-600">
-                  (Optional)
-                </span>
-              </label>
+                <p>{message}</p>
+              </div>
+            )}
 
-              <textarea
-                id="message"
-                name="message"
-                value={form.message}
-                onChange={handleChange}
-                placeholder="Tell us why you want to volunteer"
-                rows={5}
-                className={`${inputClass} resize-none`}
-              />
-            </div>
+            {/* Error */}
+            {error && (
+              <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-medium leading-6 text-red-700">
+                {error}
+              </div>
+            )}
 
-            {/* SUBMIT */}
-
+            {/* Submit */}
             <button
               type="submit"
-              disabled={submitting}
-              className="w-full rounded-xl bg-orange-600 px-5 py-4 text-base font-semibold text-white shadow-md transition hover:bg-orange-700 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60"
+              disabled={loading}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-orange-600 px-5 py-4 text-base font-semibold text-white shadow-md transition-all duration-300 hover:bg-orange-700 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {submitting
-                ? "Submitting..."
-                : "Become a Volunteer ❤️"}
+              {loading ? (
+                <>
+                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                  Submitting...
+                </>
+              ) : (
+                <>
+                  <Send size={18} />
+                  Become a Volunteer
+                </>
+              )}
             </button>
 
-            {/* SUCCESS */}
-
-            {success && (
-              <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm leading-6 text-green-700">
-                {success}
-              </div>
-            )}
-
-            {/* ERROR */}
-
-            {error && (
-              <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm leading-6 text-red-700">
-                ❌ {error}
-              </div>
-            )}
+            <p className="text-center text-xs leading-5 text-gray-500">
+              By submitting this form, you are expressing your interest in
+              volunteering with Seva Is Dharma Foundation.
+            </p>
           </form>
         </div>
       </div>
