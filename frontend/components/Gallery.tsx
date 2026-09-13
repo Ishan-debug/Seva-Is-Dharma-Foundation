@@ -1,49 +1,118 @@
 "use client";
 
-import { ImageIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import FadeIn from "./FadeIn";
+
+const galleryItems = [
+  {
+    image: "/images/hero.jpg",
+    title: "Our Beginning",
+    description:
+      "The spirit behind Seva Is Dharma Foundation — compassion, service, and responsibility towards every life.",
+  },
+  {
+    image: "/images/about-story.jpg",
+    title: "Our Story",
+    description:
+      "A journey built around selfless service and the belief that helping others is a form of devotion.",
+  },
+  {
+    image: "/images/bhagat-singh.jpg",
+    title: "Bhagat Singh",
+    description:
+      "Remembering the courage and sacrifice of one of India's great freedom fighters.",
+    static: true,
+  },
+  {
+    image: "/images/chandrashekhar-azad.jpg",
+    title: "Chandrashekhar Azad",
+    description:
+      "Honouring the courage, determination, and sacrifice of a legendary freedom fighter.",
+    static: true,
+  },
+  {
+    image: "/images/hero.webp",
+    title: "Seva in Action",
+    description:
+      "Working together with compassion to serve people, animals, and our environment.",
+  },
+  {
+    image: "/images/logo.png",
+    title: "Seva Is Dharma Foundation",
+    description:
+      "Seva Paramo Dharma — सेवा परमो धर्मः — service is the highest duty.",
+    logo: true,
+  },
+];
 
 export default function Gallery() {
   return (
     <section id="gallery" className="bg-white py-16 sm:py-20 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         <FadeIn>
-          <div className="text-center">
+          <div className="mx-auto max-w-3xl text-center">
             <span className="inline-block rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold text-orange-700">
               GALLERY
             </span>
 
-            <h2 className="mt-6 text-3xl font-bold text-gray-900 sm:text-4xl md:text-5xl">
+            <h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:text-5xl">
               Moments of Service
             </h2>
 
             <p className="mx-auto mt-5 max-w-3xl text-base leading-7 text-gray-600 sm:text-lg">
-              Every picture tells a story of compassion, kindness, and hope.
+              Every picture tells a story of compassion, courage, service,
+              and hope.
             </p>
           </div>
         </FadeIn>
 
-        {/* Empty Gallery */}
-        <FadeIn delay={0.2}>
-          <div className="mx-auto mt-12 flex max-w-3xl flex-col items-center justify-center rounded-3xl border border-orange-100 bg-orange-50 px-6 py-16 text-center shadow-sm sm:mt-16 sm:px-10">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white text-orange-600 shadow-md">
-              <ImageIcon size={38} />
-            </div>
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          {galleryItems.map((item, index) => (
+            <FadeIn key={item.title} delay={index * 0.08}>
+              <article className="group h-full overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
 
-            <h3 className="mt-6 text-2xl font-bold text-gray-900">
-              Our Gallery Is Coming Soon
-            </h3>
+                <div className="relative h-64 overflow-hidden bg-gradient-to-br from-orange-50 via-white to-green-50">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className={`object-cover ${
+                      item.static
+                        ? ""
+                        : "transition-transform duration-500 group-hover:scale-105"
+                    } ${
+                      item.logo
+                        ? "object-contain p-12"
+                        : ""
+                    }`}
+                  />
+                </div>
 
-            <p className="mt-4 max-w-xl text-sm leading-7 text-gray-600 sm:text-base">
-              We are preparing this space to share real moments from our
-              service activities, animal welfare initiatives, food
-              distribution, tree plantation, and environmental work.
-            </p>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900">
+                    {item.title}
+                  </h3>
 
-            <p className="mt-4 text-sm font-medium text-orange-600">
-              Real moments. Real service. Real impact. ❤️
-            </p>
+                  <p className="mt-3 text-sm leading-6 text-gray-600">
+                    {item.description}
+                  </p>
+                </div>
+              </article>
+            </FadeIn>
+          ))}
+        </div>
+
+        <FadeIn delay={0.3}>
+          <div className="mt-10 text-center">
+            <Link
+              href="/gallery"
+              className="inline-flex items-center justify-center rounded-full bg-orange-500 px-7 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-lg"
+            >
+              View Full Gallery →
+            </Link>
           </div>
         </FadeIn>
 
