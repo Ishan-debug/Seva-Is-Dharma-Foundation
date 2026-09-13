@@ -20,3 +20,8 @@ db.sqlite3
 # Next.js
 frontend/.next/
 frontend/node_modules/
+db.sqlite3
+
+backend/venv/
+
+backend/venv/
