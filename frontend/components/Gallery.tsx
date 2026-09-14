@@ -1,8 +1,5 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import FadeIn from "./FadeIn";
 
 const galleryItems = [
   {
@@ -32,37 +29,53 @@ const galleryItems = [
   },
 ];
 
-export default function Gallery() {
+export default function GalleryPage() {
   return (
-    <section id="gallery" className="bg-white py-16 sm:py-20 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-white">
 
-        {/* Gallery Heading */}
-        <FadeIn>
-          <div className="mx-auto max-w-3xl text-center">
-            <span className="inline-block rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold text-orange-700">
-              GALLERY
+      {/* Header */}
+      <section className="bg-gradient-to-br from-orange-50 via-white to-green-50 px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl text-center">
+
+          <Link
+            href="/"
+            className="inline-flex items-center rounded-full border border-orange-200 bg-white px-5 py-2 text-sm font-semibold text-orange-700 shadow-sm transition hover:bg-orange-50"
+          >
+            ← Back to Home
+          </Link>
+
+          <div className="mt-10">
+            <span className="inline-block rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold uppercase tracking-wider text-orange-700">
+              Gallery
             </span>
 
-            <h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:text-5xl">
+            <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
               Moments of Service
-            </h2>
+            </h1>
 
-            <p className="mx-auto mt-5 max-w-3xl text-base leading-7 text-gray-600 sm:text-lg">
+            <div className="mx-auto mt-6 h-1 w-20 rounded-full bg-orange-500" />
+
+            <p className="mx-auto mt-6 max-w-3xl text-base leading-7 text-gray-600 sm:text-lg">
               Every picture tells a story of compassion, service, and hope.
+              Explore moments from the journey of Seva Is Dharma Foundation.
             </p>
           </div>
-        </FadeIn>
 
-        {/* Gallery Cards */}
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-          {galleryItems.map((item, index) => (
-            <FadeIn key={item.title} delay={index * 0.08}>
-              <article className="group h-full overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm tran
-sition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+        </div>
+      </section>
 
-                {/* Image */}
-                <div className="relative h-64 overflow-hidden bg-gradient-to-br from-orange-50 via-white to-green-50">
+      {/* Gallery */}
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl">
+
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {galleryItems.map((item) => (
+              <article
+                key={item.title}
+                className="group overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              >
+                <div className="relative h-72 overflow-hidden bg-gradient-to-br from-orange-50 via-white to-green-50">
+
                   <Image
                     src={item.image}
                     alt={item.title}
@@ -70,41 +83,52 @@ sition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className={
                       item.logo
-                        ? "object-contain p-12"
+                        ? "object-contain p-16"
                         : "object-cover transition-transform duration-500 group-hover:scale-105"
                     }
                   />
+
                 </div>
 
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900">
+                <div className="p-7">
+                  <h2 className="text-2xl font-bold text-gray-900">
                     {item.title}
-                  </h3>
+                  </h2>
 
-                  <p className="mt-3 text-sm leading-6 text-gray-600">
+                  <p className="mt-4 text-sm leading-7 text-gray-600 sm:text-base">
                     {item.description}
                   </p>
                 </div>
               </article>
-            </FadeIn>
-          ))}
-        </div>
-
-        {/* Full Gallery Button */}
-        <FadeIn delay={0.3}>
-          <div className="mt-10 text-center">
-            <Link
-              href="/gallery"
-              className="inline-flex items-center justify-center rounded-full bg-orange-500 px-7 py-3 text-sm font-semibo
-ld text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-lg"
-            >
-              View Full Gallery →
-            </Link>
+            ))}
           </div>
-        </FadeIn>
 
-      </div>
-    </section>
+        </div>
+      </section>
+
+      {/* Closing Message */}
+      <section className="border-t border-gray-100 bg-gray-950 px-4 py-16 text-center text-white sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl">
+
+          <p className="text-2xl font-bold sm:text-3xl">
+            सेवा परमो धर्मः
+          </p>
+
+          <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-gray-300 sm:text-base">
+            Service is the highest duty. Every act of compassion can make a
+            difference in someone's life.
+          </p>
+
+          <Link
+            href="/"
+            className="mt-8 inline-flex rounded-full bg-orange-500 px-7 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
+          >
+            Return to Foundation →
+          </Link>
+
+        </div>
+      </section>
+
+    </main>
   );
 }

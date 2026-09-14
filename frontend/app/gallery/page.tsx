@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
 
 const galleryItems = [
@@ -13,20 +13,6 @@ const galleryItems = [
     title: "Our Story",
     description:
       "A journey built around selfless service and the belief that helping others is a form of devotion.",
-  },
-  {
-    image: "/images/bhagat-singh.jpg",
-    title: "Bhagat Singh",
-    description:
-      "Remembering the courage and sacrifice of one of India's great freedom fighters.",
-    static: true,
-  },
-  {
-    image: "/images/chandrashekhar-azad.jpg",
-    title: "Chandrashekhar Azad",
-    description:
-      "Honouring the courage, determination, and sacrifice of a legendary freedom fighter.",
-    static: true,
   },
   {
     image: "/images/hero.webp",
@@ -58,22 +44,23 @@ export default function GalleryPage() {
             ← Back to Home
           </Link>
 
-          <p className="mt-10 text-sm font-bold uppercase tracking-[0.2em] text-orange-600">
-            Seva Is Dharma Foundation
-          </p>
+          <div className="mt-10">
+            <span className="inline-block rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold uppercase tracking-wider text-orange-700">
+              Gallery
+            </span>
 
-          <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-            Moments of Service
-          </h1>
+            <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+              Moments of Service
+            </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-gray-600 sm:text-lg">
-            Every picture tells a story of compassion, courage, service,
-            sacrifice, and hope.
-          </p>
+            <div className="mx-auto mt-6 h-1 w-20 rounded-full bg-orange-500" />
 
-          <p className="mt-5 text-lg font-semibold text-gray-800">
-            सेवा परमो धर्मः
-          </p>
+            <p className="mx-auto mt-6 max-w-3xl text-base leading-7 text-gray-600 sm:text-lg">
+              Every picture tells a story of compassion, service, and hope.
+              Explore moments from the journey of Seva Is Dharma Foundation.
+            </p>
+          </div>
+
         </div>
       </section>
 
@@ -94,15 +81,11 @@ export default function GalleryPage() {
                     alt={item.title}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className={`object-cover ${
-                      item.static
-                        ? ""
-                        : "transition-transform duration-500 group-hover:scale-105"
-                    } ${
+                    className={
                       item.logo
                         ? "object-contain p-16"
-                        : ""
-                    }`}
+                        : "object-cover transition-transform duration-500 group-hover:scale-105"
+                    }
                   />
 
                 </div>
@@ -123,7 +106,7 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* Freedom Fighters Message */}
+      {/* Closing Message */}
       <section className="border-t border-gray-100 bg-gray-950 px-4 py-16 text-center text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl">
 
@@ -132,8 +115,8 @@ export default function GalleryPage() {
           </p>
 
           <p className="mx-auto mt-6 max-w-3xl text-sm leading-7 text-gray-300 sm:text-base">
-            Our deepest gratitude to the great freedom fighters who fought
-            for our freedom and sacrificed their lives for our nation.
+            Service is the highest duty. Every act of compassion can make a
+            difference in someone's life.
           </p>
 
           <Link
