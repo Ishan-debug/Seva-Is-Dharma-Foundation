@@ -31,10 +31,13 @@ const galleryItems = [
 
 export default function Gallery() {
   return (
-    <section id="gallery" className="bg-white py-16 sm:py-20 lg:py-24">
+    <section
+      id="gallery"
+      className="bg-white py-16 sm:py-20 lg:py-24"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-        {/* Section Heading */}
+        {/* Heading */}
         <FadeIn>
           <div className="mx-auto max-w-3xl text-center">
             <span className="inline-block rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold text-orange-700">
@@ -59,7 +62,6 @@ export default function Gallery() {
             <FadeIn key={item.title} delay={index * 0.08}>
               <article className="group h-full overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
 
-                {/* Image */}
                 <div className="relative h-64 overflow-hidden bg-gradient-to-br from-orange-50 via-white to-green-50">
                   <Image
                     src={item.image}
@@ -74,7 +76,6 @@ export default function Gallery() {
                   />
                 </div>
 
-                {/* Content */}
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900">
                     {item.title}
@@ -91,16 +92,14 @@ export default function Gallery() {
         </div>
 
         {/* Full Gallery Button */}
-        <FadeIn delay={0.3}>
-          <div className="mt-10 text-center">
-            <a
-              href="/gallery"
-              className="inline-flex items-center justify-center rounded-full bg-orange-500 px-7 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-lg"
-            >
-              View Full Gallery →
-            </a>
-          </div>
-        </FadeIn>
+        <div className="mt-10 text-center">
+          <a
+            href="/gallery"
+            className="inline-flex min-h-12 items-center justify-center rounded-full bg-orange-500 px-7 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-xl"
+          >
+            View Full Gallery →
+          </a>
+        </div>
 
       </div>
     </section>
