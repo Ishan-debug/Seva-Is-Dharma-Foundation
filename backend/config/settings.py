@@ -361,19 +361,34 @@ DEFAULT_AUTO_FIELD = (
 
 if not DEBUG:
 
+    # Render terminates HTTPS at the proxy.
+    SECURE_PROXY_SSL_HEADER = (
+        "HTTP_X_FORWARDED_PROTO",
+        "https",
+    )
+
+    # Redirect HTTP requests to HTTPS.
     SECURE_SSL_REDIRECT = True
 
+    # HTTPS-only session cookies.
     SESSION_COOKIE_SECURE = True
 
+    # HTTPS-only CSRF cookies.
     CSRF_COOKIE_SECURE = True
 
+    # HTTP Strict Transport Security.
+    # One year.
     SECURE_HSTS_SECONDS = 31536000
 
+    # Apply HSTS to subdomains.
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
-    SECURE_HSTS_PRELOAD = True
+    # Keep HSTS preload disabled until the entire domain setup
+    # has been verified.
+    SECURE_HSTS_PRELOAD = False
 
+    # Prevent MIME-type sniffing.
     SECURE_CONTENT_TYPE_NOSNIFF = True
 
+    # Prevent clickjacking.
     X_FRAME_OPTIONS = "DENY"
-    
