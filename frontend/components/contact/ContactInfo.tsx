@@ -16,12 +16,21 @@ export default function ContactInfo() {
           <div>
             <h4 className="font-semibold">Phone</h4>
 
-            <a
-              href="tel:+919199233328"
-              className="text-gray-600 transition-colors hover:text-green-600"
-            >
-              +91 91992 33328
-            </a>
+            <div className="space-y-1">
+              <a
+                href="tel:+919199233328"
+                className="block text-gray-600 transition-colors hover:text-green-600"
+              >
+                +91 91992 33328
+              </a>
+
+              <a
+                href="tel:+917258050996"
+                className="block text-gray-600 transition-colors hover:text-green-600"
+              >
+                +91 72580 50996
+              </a>
+            </div>
           </div>
         </div>
 
@@ -49,7 +58,9 @@ export default function ContactInfo() {
             <h4 className="font-semibold">Head Office</h4>
 
             <p className="text-gray-600">
-              Singh More
+              Singh More, Prem Nagar
+              <br />
+              Road No. 01, Hatia
               <br />
               Ranchi, Jharkhand – 834003
               <br />

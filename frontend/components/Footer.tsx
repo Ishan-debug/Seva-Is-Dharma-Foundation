@@ -84,12 +84,60 @@ export default function Footer() {
             </h3>
 
             <ul className="space-y-3">
-              <li><Link href="/" className="transition hover:text-orange-400">Home</Link></li>
-              <li><Link href="/about" className="transition hover:text-orange-400">About Us</Link></li>
-              <li><Link href="/causes" className="transition hover:text-orange-400">Our Causes</Link></li>
-              <li><Link href="/gallery" className="transition hover:text-orange-400">Gallery</Link></li>
-              <li><Link href="/volunteer" className="transition hover:text-orange-400">Volunteer</Link></li>
-              <li><Link href="/contact" className="transition hover:text-orange-400">Contact</Link></li>
+              <li>
+                <Link
+                  href="/"
+                  className="transition hover:text-orange-400"
+                >
+                  Home
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/about"
+                  className="transition hover:text-orange-400"
+                >
+                  About Us
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/causes"
+                  className="transition hover:text-orange-400"
+                >
+                  Our Causes
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/gallery"
+                  className="transition hover:text-orange-400"
+                >
+                  Gallery
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/volunteer"
+                  className="transition hover:text-orange-400"
+                >
+                  Volunteer
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/contact"
+                  className="transition hover:text-orange-400"
+                >
+                  Contact
+                </Link>
+              </li>
+
               <li>
                 <Link
                   href="/donate"
@@ -109,22 +157,37 @@ export default function Footer() {
 
             <ul className="space-y-3">
               <li>
-                <Link href="/causes/animal-welfare" className="transition hover:text-orange-400">
+                <Link
+                  href="/causes/animal-welfare"
+                  className="transition hover:text-orange-400"
+                >
                   🐾 Animal Welfare
                 </Link>
               </li>
+
               <li>
-                <Link href="/causes/food-distribution" className="transition hover:text-orange-400">
+                <Link
+                  href="/causes/food-distribution"
+                  className="transition hover:text-orange-400"
+                >
                   🍛 Food Distribution
                 </Link>
               </li>
+
               <li>
-                <Link href="/causes/tree-plantation" className="transition hover:text-orange-400">
+                <Link
+                  href="/causes/tree-plantation"
+                  className="transition hover:text-orange-400"
+                >
                   🌳 Tree Plantation
                 </Link>
               </li>
+
               <li>
-                <Link href="/causes/environment" className="transition hover:text-orange-400">
+                <Link
+                  href="/causes/environment"
+                  className="transition hover:text-orange-400"
+                >
                   🌍 Environment Protection
                 </Link>
               </li>
@@ -136,17 +199,28 @@ export default function Footer() {
 
             <ul className="space-y-3">
               <li>
-                <Link href="/privacy-policy" className="transition hover:text-orange-400">
+                <Link
+                  href="/privacy-policy"
+                  className="transition hover:text-orange-400"
+                >
                   Privacy Policy
                 </Link>
               </li>
+
               <li>
-                <Link href="/terms" className="transition hover:text-orange-400">
+                <Link
+                  href="/terms"
+                  className="transition hover:text-orange-400"
+                >
                   Terms & Conditions
                 </Link>
               </li>
+
               <li>
-                <Link href="/disclaimer" className="transition hover:text-orange-400">
+                <Link
+                  href="/disclaimer"
+                  className="transition hover:text-orange-400"
+                >
                   Disclaimer
                 </Link>
               </li>
@@ -161,19 +235,31 @@ export default function Footer() {
 
             <div className="space-y-5">
 
-              <a
-                href="tel:+919199233328"
-                className="flex items-start gap-3 transition hover:text-orange-400"
-              >
+              {/* Phone */}
+              <div className="flex items-start gap-3">
                 <Phone
                   size={18}
                   className="mt-1 shrink-0 text-orange-400"
                 />
-                <span className="break-words">
-                  +91 91992 33328
-                </span>
-              </a>
 
+                <div className="flex flex-col gap-1">
+                  <a
+                    href="tel:+919199233328"
+                    className="transition hover:text-orange-400"
+                  >
+                    +91 91992 33328
+                  </a>
+
+                  <a
+                    href="tel:+917258050996"
+                    className="transition hover:text-orange-400"
+                  >
+                    +91 72580 50996
+                  </a>
+                </div>
+              </div>
+
+              {/* Email */}
               <a
                 href="mailto:contact@sevaisdharmafoundation.org"
                 className="flex items-start gap-3 transition hover:text-orange-400"
@@ -182,18 +268,23 @@ export default function Footer() {
                   size={18}
                   className="mt-1 shrink-0 text-orange-400"
                 />
+
                 <span className="break-all">
                   contact@sevaisdharmafoundation.org
                 </span>
               </a>
 
+              {/* Address */}
               <div className="flex items-start gap-3">
                 <MapPin
                   size={18}
                   className="mt-1 shrink-0 text-orange-400"
                 />
+
                 <span>
-                  Singh More
+                  Singh More, Prem Nagar
+                  <br />
+                  Road No. 01, Hatia
                   <br />
                   Ranchi, Jharkhand – 834003
                   <br />

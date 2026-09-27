@@ -1,4 +1,4 @@
-import Navbar from "@/components/Navbar";
+﻿import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Breadcrumb from "@/components/Breadcrumb";
 
@@ -207,11 +207,11 @@ export default function DisclaimerPage() {
                   </p>
 
                   <p className="mt-2 text-gray-600">
-                    Singh More, Ranchi, Jharkhand – 834003, India
+                    Singh More, Prem Nagar, Road No. 01, Hatia, Ranchi, Jharkhand - 834003, India
                   </p>
 
                   <p className="mt-2 text-gray-600">
-                    Phone: +91 91992 33328
+                    Phone: +91 91992 33328 / +91 72580 50996
                   </p>
 
                   <p className="mt-2 text-gray-600">
