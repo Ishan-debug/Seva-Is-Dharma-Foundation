@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import FadeIn from "./FadeIn";
 
@@ -6,96 +5,185 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-[90vh] w-full items-center justify-center overflow-hidden sm:min-h-screen"
+      className="relative w-full overflow-hidden bg-black text-white"
     >
-      {/* Hero Background */}
-      <Image
-        src="/images/hero.webp"
-        alt="Seva Is Dharma Foundation"
-        fill
-        priority
-        sizes="100vw"
-        quality={65}
-        className="object-cover object-center"
+      {/* Thin green accent bar */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          left-1/2
+          top-0
+          z-20
+          h-1
+          w-48
+          -translate-x-1/2
+          rounded-b-full
+          bg-emerald-500
+        "
       />
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/75" />
-
       {/* Hero Content */}
-      <div className="relative z-10 w-full max-w-5xl px-4 py-20 text-center text-white sm:px-6 sm:py-28">
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          flex
+          min-h-[calc(100vh-88px)]
+          w-full
+          max-w-7xl
+          items-center
+          px-5
+          py-16
+          sm:px-8
+          sm:py-20
+          lg:px-12
+          lg:py-24
+        "
+      >
+        <div className="w-full max-w-4xl">
 
-        {/* Main Heading */}
-        <FadeIn>
-          <h1 className="mx-auto max-w-full break-words text-3xl font-extrabold leading-tight tracking-tight drop-shadow-2xl sm:text-5xl md:text-6xl lg:text-7xl">
-            Serving Every Life
-            <br />
-            with Compassion
-          </h1>
-        </FadeIn>
-
-        {/* Motto */}
-        <FadeIn delay={0.3}>
-          <p className="mt-5 text-lg font-medium sm:mt-6 sm:text-2xl">
-            Helping is Bhakti
-          </p>
-
-          <p className="mt-2 text-base sm:text-xl">
-            सेवा परमो धर्मः
-          </p>
-        </FadeIn>
-
-        {/* Causes */}
-        <FadeIn delay={0.45}>
-          <div className="mx-auto mt-7 flex w-full max-w-3xl flex-wrap justify-center gap-2 px-1 sm:mt-8 sm:gap-3">
-
-            <span className="rounded-full border border-white/20 bg-black/30 px-4 py-2 text-xs font-medium backdrop-blur-sm sm:px-5 sm:text-sm">
-              🐾 Animal Welfare
-            </span>
-
-            <span className="rounded-full border border-white/20 bg-black/30 px-4 py-2 text-xs font-medium backdrop-blur-sm sm:px-5 sm:text-sm">
-              🍲 Food Distribution
-            </span>
-
-            <span className="rounded-full border border-white/20 bg-black/30 px-4 py-2 text-xs font-medium backdrop-blur-sm sm:px-5 sm:text-sm">
-              🌳 Tree Plantation
-            </span>
-
-            <span className="rounded-full border border-white/20 bg-black/30 px-4 py-2 text-xs font-medium backdrop-blur-sm sm:px-5 sm:text-sm">
-              🌍 Environment Protection
-            </span>
-
-          </div>
-        </FadeIn>
-
-        {/* Description */}
-        <FadeIn delay={0.6}>
-          <p className="mx-auto mt-7 max-w-3xl break-words text-sm leading-6 text-gray-200 sm:mt-8 sm:text-base sm:leading-7 md:text-lg">
-            Protecting animals, feeding the hungry, planting trees, and
-            preserving nature through compassion, selfless service, and
-            community participation.
-          </p>
-        </FadeIn>
-
-        {/* CTA Buttons */}
-        <FadeIn delay={0.75}>
-          <div className="mx-auto mt-8 flex w-full max-w-md flex-col gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
-
-            <Link
-              href="/#volunteer"
-              className="inline-flex min-h-12 items-center justify-center rounded-full bg-orange-500 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-xl sm:px-8 sm:text-base"
+          {/* Main Heading */}
+          <FadeIn delay={0.1}>
+            <h1
+              className="
+                max-w-4xl
+                text-4xl
+                font-bold
+                leading-[1.12]
+                tracking-tight
+                text-white
+                sm:text-5xl
+                md:text-6xl
+                lg:text-7xl
+                xl:text-[5.25rem]
+              "
             >
-              🤝 Donate Now
-            </Link>
+              Serving Humanity.
+              <br />
+              Protecting Nature.
+              <br />
+              Inspiring Hope.
+            </h1>
+          </FadeIn>
 
-          </div>
-        </FadeIn>
+          {/* Description */}
+          <FadeIn delay={0.2}>
+            <p
+              className="
+                mt-6
+                max-w-3xl
+                text-base
+                leading-7
+                text-white/80
+                sm:mt-7
+                sm:text-lg
+                sm:leading-8
+                lg:text-xl
+              "
+            >
+              Seva Is Dharma Foundation is dedicated to creating lasting
+              impact through compassion, animal welfare, food distribution,
+              education, and environmental conservation.
+            </p>
+          </FadeIn>
+
+          {/* Buttons */}
+          <FadeIn delay={0.3}>
+            <div
+              className="
+                mt-8
+                flex
+                w-full
+                flex-col
+                gap-3
+                sm:mt-9
+                sm:flex-row
+                sm:items-center
+              "
+            >
+              {/* Volunteer */}
+              <Link
+                href="/#volunteer"
+                className="
+                  inline-flex
+                  min-h-[54px]
+                  w-full
+                  items-center
+                  justify-center
+                  rounded-xl
+                  bg-emerald-500
+                  px-7
+                  py-3
+                  text-base
+                  font-semibold
+                  text-white
+                  shadow-lg
+                  shadow-emerald-950/30
+                  transition-all
+                  duration-300
+                  hover:-translate-y-0.5
+                  hover:bg-emerald-400
+                  hover:shadow-xl
+                  sm:w-auto
+                  sm:px-8
+                "
+              >
+                Become a Volunteer
+              </Link>
+
+              {/* Donate */}
+              <Link
+                href="/donate"
+                className="
+                  inline-flex
+                  min-h-[54px]
+                  w-full
+                  items-center
+                  justify-center
+                  rounded-xl
+                  border
+                  border-white/70
+                  bg-transparent
+                  px-7
+                  py-3
+                  text-base
+                  font-semibold
+                  text-white
+                  transition-all
+                  duration-300
+                  hover:-translate-y-0.5
+                  hover:bg-white
+                  hover:text-black
+                  sm:w-auto
+                  sm:px-8
+                "
+              >
+                Donate Now
+              </Link>
+            </div>
+          </FadeIn>
+
+        </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 animate-bounce text-2xl text-white sm:bottom-8 sm:text-3xl">
-        ↓
-      </div>
+      {/* Subtle bottom transition */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          bottom-0
+          left-0
+          right-0
+          h-12
+          bg-gradient-to-t
+          from-black
+          to-transparent
+        "
+      />
     </section>
   );
 }
