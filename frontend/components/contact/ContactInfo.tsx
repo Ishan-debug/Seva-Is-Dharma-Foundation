@@ -3,7 +3,8 @@ import { Phone, Mail, MapPin, Clock } from "lucide-react";
 export default function ContactInfo() {
   return (
     <div className="rounded-3xl bg-white p-8 shadow-lg">
-      <h3 className="mb-8 text-2xl font-bold">
+      {/* Title */}
+      <h3 className="mb-8 text-2xl font-bold text-gray-900">
         Contact Information
       </h3>
 
@@ -11,22 +12,24 @@ export default function ContactInfo() {
 
         {/* Phone */}
         <div className="flex gap-4">
-          <Phone className="mt-1 h-6 w-6 text-green-600" />
+          <Phone className="mt-1 h-6 w-6 shrink-0 text-green-600" />
 
           <div>
-            <h4 className="font-semibold">Phone</h4>
+            <h4 className="font-semibold text-gray-900">
+              Phone
+            </h4>
 
-            <div className="space-y-1">
+            <div className="mt-1 space-y-1">
               <a
                 href="tel:+919199233328"
-                className="block text-gray-600 transition-colors hover:text-green-600"
+                className="block text-gray-700 transition-colors hover:text-green-600"
               >
                 +91 91992 33328
               </a>
 
               <a
                 href="tel:+917258050996"
-                className="block text-gray-600 transition-colors hover:text-green-600"
+                className="block text-gray-700 transition-colors hover:text-green-600"
               >
                 +91 72580 50996
               </a>
@@ -36,14 +39,16 @@ export default function ContactInfo() {
 
         {/* Email */}
         <div className="flex gap-4">
-          <Mail className="mt-1 h-6 w-6 text-green-600" />
+          <Mail className="mt-1 h-6 w-6 shrink-0 text-green-600" />
 
-          <div>
-            <h4 className="font-semibold">Email</h4>
+          <div className="min-w-0">
+            <h4 className="font-semibold text-gray-900">
+              Email
+            </h4>
 
             <a
               href="mailto:contact@sevaisdharmafoundation.org"
-              className="text-gray-600 transition-colors hover:text-green-600"
+              className="mt-1 block break-all text-gray-700 transition-colors hover:text-green-600"
             >
               contact@sevaisdharmafoundation.org
             </a>
@@ -52,12 +57,14 @@ export default function ContactInfo() {
 
         {/* Head Office */}
         <div className="flex gap-4">
-          <MapPin className="mt-1 h-6 w-6 text-green-600" />
+          <MapPin className="mt-1 h-6 w-6 shrink-0 text-green-600" />
 
           <div>
-            <h4 className="font-semibold">Head Office</h4>
+            <h4 className="font-semibold text-gray-900">
+              Head Office
+            </h4>
 
-            <p className="text-gray-600">
+            <p className="mt-1 text-gray-700 leading-6">
               Singh More, Prem Nagar
               <br />
               Road No. 01, Hatia
@@ -71,20 +78,20 @@ export default function ContactInfo() {
 
         {/* Service Areas */}
         <div className="flex gap-4">
-          <MapPin className="mt-1 h-6 w-6 text-green-600" />
+          <MapPin className="mt-1 h-6 w-6 shrink-0 text-green-600" />
 
           <div>
-            <h4 className="font-semibold">
+            <h4 className="font-semibold text-gray-900">
               Service Areas
             </h4>
 
-            <ul className="mt-3 space-y-2 text-gray-600">
+            <ul className="mt-3 space-y-2 text-gray-700">
               <li>✅ Ranchi, Jharkhand</li>
               <li>✅ Jamshedpur, Jharkhand</li>
               <li>✅ Purulia District, West Bengal</li>
             </ul>
 
-            <p className="mt-4 text-gray-600">
+            <p className="mt-4 text-gray-700 leading-7">
               We are continuously expanding our outreach and aspire
               to serve more communities across India through
               compassion, volunteerism, and sustainable initiatives.
@@ -94,14 +101,14 @@ export default function ContactInfo() {
 
         {/* Working Hours */}
         <div className="flex gap-4">
-          <Clock className="mt-1 h-6 w-6 text-green-600" />
+          <Clock className="mt-1 h-6 w-6 shrink-0 text-green-600" />
 
           <div>
-            <h4 className="font-semibold">
+            <h4 className="font-semibold text-gray-900">
               Working Hours
             </h4>
 
-            <p className="text-gray-600">
+            <p className="mt-1 text-gray-700 leading-6">
               Monday – Saturday
               <br />
               9:00 AM – 6:00 PM
