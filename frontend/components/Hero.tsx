@@ -25,25 +25,8 @@ export default function Hero() {
       {/* Hero Content */}
       <div className="relative z-10 w-full max-w-5xl px-4 py-20 text-center text-white sm:px-6 sm:py-28">
 
-        {/* Official Logo - Subtle */}
-        <FadeIn>
-          <div className="mx-auto mb-4 flex justify-center sm:mb-5">
-            <div className="relative h-16 w-16 opacity-95 drop-shadow-xl sm:h-20 sm:w-20">
-              <Image
-                src="/images/logo.png"
-                alt="Seva Is Dharma Foundation logo"
-                fill
-                priority
-                unoptimized
-                sizes="80px"
-                className="object-contain"
-              />
-            </div>
-          </div>
-        </FadeIn>
-
         {/* Main Heading */}
-        <FadeIn delay={0.15}>
+        <FadeIn>
           <h1 className="mx-auto max-w-full break-words text-3xl font-extrabold leading-tight tracking-tight drop-shadow-2xl sm:text-5xl md:text-6xl lg:text-7xl">
             Serving Every Life
             <br />
@@ -71,7 +54,7 @@ export default function Hero() {
             </span>
 
             <span className="rounded-full border border-white/20 bg-black/30 px-4 py-2 text-xs font-medium backdrop-blur-sm sm:px-5 sm:text-sm">
-              🍛 Food Distribution
+              🍲 Food Distribution
             </span>
 
             <span className="rounded-full border border-white/20 bg-black/30 px-4 py-2 text-xs font-medium backdrop-blur-sm sm:px-5 sm:text-sm">
@@ -102,14 +85,7 @@ export default function Hero() {
               href="/#volunteer"
               className="inline-flex min-h-12 items-center justify-center rounded-full bg-orange-500 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-xl sm:px-8 sm:text-base"
             >
-              🤝 Become a Volunteer
-            </Link>
-
-            <Link
-              href="/donate"
-              className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:text-gray-900 sm:px-8 sm:text-base"
-            >
-              ❤️ Donate Now
+              🤝 Donate Now
             </Link>
 
           </div>
