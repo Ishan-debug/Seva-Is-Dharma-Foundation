@@ -27,6 +27,11 @@ urlpatterns = [
         "api/donations/",
         include("donations.urls"),
     ),
+
+    path(
+    "api/ai/",
+    include("ai.urls"),
+),
 ]
 
 

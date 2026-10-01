@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     "donations",
     "gallery",
     "volunteers",
+    "ai",
 ]
 
 
@@ -233,6 +234,19 @@ RAZORPAY_KEY_SECRET = config(
     default="",
 )
 
+# =========================================================
+# OPENAI
+# =========================================================
+
+OPENAI_API_KEY = config(
+    "OPENAI_API_KEY",
+    default="",
+)
+
+OPENAI_MODEL = config(
+    "OPENAI_MODEL",
+    default="gpt-5.6-luna",
+)
 
 # =========================================================
 # CORS

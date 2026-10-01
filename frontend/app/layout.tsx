@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import AIChat from "@/components/AIChat";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,6 +23,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={poppins.className}>
         {children}
+
+        <AIChat />
       </body>
     </html>
   );
