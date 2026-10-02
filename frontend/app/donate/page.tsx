@@ -36,7 +36,7 @@ export default function DonatePage() {
           </div>
         </section>
 
-        {/* Razorpay Donation Section */}
+        {/* Donation */}
         <Donation />
 
         {/* How You Can Help */}

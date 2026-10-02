@@ -1,19 +1,35 @@
 import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import FreedomFighters from "@/components/FreedomFighters";
+import About from "@/components/about/About";
+import Causes from "@/components/Causes";
+import Impact from "@/components/Impact";
+import MissionVision from "@/components/about/MissionVision";
+import Gallery from "@/components/Gallery";
 import Footer from "@/components/Footer";
-import AboutHero from "@/components/about/AboutHero";
-import Contact from "@/components/contact/Contact";
 
-export default function AboutPage() {
+export default function HomePage() {
   return (
     <>
       <Navbar />
 
       <main>
-        <AboutHero />
+        <Hero />
+
+        <FreedomFighters />
+
+        <About />
+
+        <Causes />
+
+        <Impact />
+
+        <MissionVision />
+
+        <Gallery />
       </main>
 
       <Footer />
-      <Contact />
     </>
   );
 }
